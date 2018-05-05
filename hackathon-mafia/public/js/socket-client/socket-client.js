@@ -22,6 +22,41 @@ socket.on('allReady', function(msg) {
 
 });
 
+socket.on('removeRoleScreen', function(msg) {
+
+});
+
+socket.on('allAsleep', function(msg) {
+
+});
+
+socket.on('sheriffTime', function(msg) {
+
+});
+
+socket.on('doctorTime', function(msg) {
+
+});
+
+socket.on('mafiaTime', function(msg) {
+
+});
+
+socket.on('wakeUp', function(msg) {
+
+});
+
+socket.on('dayTime', function(msg) {
+
+});
+
+socket.on('voteTime', function(msg) {
+
+});
+
+socket.on('playerVoted', function(msg) {
+
+});
 
 function changeName(name) {
     const playerName = {
@@ -48,4 +83,8 @@ function doctorVote(){
 
 function mafiaVote() {
     socket.emit('mafiaVote');
+}
+
+function fallAsleep() {
+    socket.emit('playerAsleep');
 }

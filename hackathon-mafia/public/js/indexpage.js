@@ -12,6 +12,6 @@ $("#room-join-button").click(function() {
 
 });
 
-$("#room-create-button").click(function() {
-    window.location.href = new URL("/create", base);
-});
+// $("#room-create-button").click(function() {
+//     window.location.href = new URL("/create", base);
+// });

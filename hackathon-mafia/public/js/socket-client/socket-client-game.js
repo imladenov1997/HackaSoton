@@ -40,24 +40,68 @@ socket.on('playerVoted', function(msg) {
 
 });
 
+socket.on('isMafia', function(msg) {
+
+});
+
 function setReady() {
-    socket.emit('playerReady');
+    const readyPlayerOne = {
+        gameID: gameID,
+        playerID: playerID,
+        page: "game",
+        data: {
+            ready: true
+        }
+    };
+    socket.emit('playerReady', readyPlayerOne);
 }
 
-function vote() {
-    socket.emit('vote');
+function vote(id) {
+    const votedPlayer = {
+        gameID: gameID,
+        playerID: playerID,
+        page: "game",
+        data: {
+            votedPlayerId: id
+        }
+    };
+    socket.emit('vote', votedPlayer);
 }
 
-function sheriffVote() {
-    socket.emit('sheriffVote');
+function sheriffVote(id) {
+    const checkedPlayer = {
+        gameID: gameID,
+        playerID: playerID,
+        page: "game",
+        data: {
+            checkedPlayer: id
+        }
+    };
+    socket.emit('sheriffVote', checkedPlayer);
 }
 
-function doctorVote(){
-    socket.emit('doctorVote');
+function doctorVote(id){
+    const curedPlayer = {
+        gameID: gameID,
+        playerID: playerID,
+        page: "game",
+        data: {
+            curedPlayer: id
+        }
+    };
+    socket.emit('doctorVote', curedPlayer);
 }
 
-function mafiaVote() {
-    socket.emit('mafiaVote');
+function mafiaVote(id) {
+    const playerToKill = {
+        gameID: gameID,
+        playerID: playerID,
+        page: "game",
+        data: {
+            playerToKill: id
+        }
+    };
+    socket.emit('mafiaVote', playerToKill);
 }
 
 function fallAsleep() {

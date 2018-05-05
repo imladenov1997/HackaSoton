@@ -21,7 +21,8 @@ router.get('/create', function(req, res, next) {
   const game = new GameRoom(adminPlayer, gameID)
   currentGameRooms[gameID] = game;
   //Render the lobby page and send back the admin his id
-  res.send("Game code " + game.getGameCode());
+  // res.send("Game code " + game.getGameCode());
+  res.render('master_lobby');
 });
 
 router.get('/join/:gameID', function(req, res, next) {
@@ -30,12 +31,17 @@ router.get('/join/:gameID', function(req, res, next) {
     const game = currentGameRooms[gameID];
     const playerID = game.getNextPlayerID();
     const player = new Player(playerID);
-    res.send("Joined room " + gameID + "\nPlayer ID" + playerID);
+    // res.send("Joined room " + gameID + "\nPlayer ID" + playerID);
+    res.render('player_lobby');
     //Send back the client ID
   } else {
     res.send("No such room");
   }
 });
+
+router.get('/inprogress/:gameID', function(req, res, next) {
+    res.render('game_page')
+})
 
 
 

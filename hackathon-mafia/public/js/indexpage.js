@@ -6,7 +6,7 @@ $("#room-join-button").click(function() {
     $.post(url, (data) => {
         //Get the lobby page
         console.log("Client got his id");
-        let lobbyUrl = new URL("/join/" + data.game + "/" + data.player);
+        let lobbyUrl = new URL("/join/" + data.game + "/" + data.player, base);
         window.location.href = lobbyUrl;
     });
 });

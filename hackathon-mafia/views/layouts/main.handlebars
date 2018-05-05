@@ -6,7 +6,13 @@
 </head>
 <script src="/socket.io/socket.io.js"></script>
 <body>
-<script> var socket = io(); socket.emit('nameChange', {})</script>
+<script>
+    var socket = io();
+    socket.emit('nameChange', {});
+    socket.on('gameStarts', function(game) {
+        console.log("Prepare! Game starts");
+    });
+</script>
     {{{body}}}
 
 </body>

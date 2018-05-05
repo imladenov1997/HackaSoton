@@ -29,14 +29,35 @@ var io     = require('socket.io')(server);
  */
 
 io.on('connection', function(socket) {
-
     io.emit('playerJoined');
     socket.on('nameChange', function(msg) {
         console.log('username has been changed: ' + msg.name);
+        io.emit('playerChangedName');
+    });
+
+    socket.on('playerReady', function(msg) {
+        const allReady = false;
+        if (allReady) {
+          io.emit('allReady');
+        }
+    });
+
+    socket.on('vote', function(msg) {
+        io.emit('playerVoted');
+    });
+
+    socket.on('sheriffVote', function(msg) {
+
+    });
+
+    socket.on('doctorVote', function(msg) {
+
+    });
+
+    socket.on('mafiaVote', function(msg) {
+
     });
 });
-
-
 
 
 /**

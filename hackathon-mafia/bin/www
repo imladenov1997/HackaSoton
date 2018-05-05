@@ -30,6 +30,9 @@ var io     = require('socket.io')(server);
 
 io.on('connection', function(socket) {
     io.emit('playerJoined');
+    socket.on('playerJoined', function(msg) {
+        
+    })
     socket.on('nameChange', function(msg) {
         if (msg.page === 'lobby') {
             console.log('username has been changed: ' + msg.name);

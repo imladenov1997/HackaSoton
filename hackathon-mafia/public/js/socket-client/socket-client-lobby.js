@@ -10,15 +10,20 @@ socket.on('gameStarts', function(game) {
 socket.on('playerJoined', function() {
     const msg = 'New Player just entered the lobby';
     console.log(msg);
+    console.log(window.location.href);
     changeName('name');
 });
 
+// sample for sending json
+var sample = {
+    id: 0,
+    page: "lobby/game",
+    data: {
+
+    }
+};
 
 socket.on('playerChangedName', function(msg) {
-
-});
-
-socket.on('allReady', function(msg) {
 
 });
 
@@ -28,24 +33,4 @@ function changeName(name) {
         name: name
     }
     socket.emit('nameChange', playerName);
-}
-
-function setReady() {
-    socket.emit('playerReady', );
-}
-
-function vote() {
-    socket.emit('vote');
-}
-
-function sheriffVote() {
-    socket.emit('sheriffVote');
-}
-
-function doctorVote(){
-    socket.emit('doctorVote');
-}
-
-function mafiaVote() {
-    socket.emit('mafiaVote');
 }

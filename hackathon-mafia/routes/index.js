@@ -28,6 +28,9 @@ router.post('/getPlayerID/:gameID', function(req, res, next) {
     const game = currentGameRooms[gameID];
     const playerID = game.getNextPlayerID();
     const newPlayer = new Player(playerID);
+
+    game.playerJoined(newPlayer);
+
     res.json({player: playerID, game: gameID}); 
   } else {
     //Not sure what to send here

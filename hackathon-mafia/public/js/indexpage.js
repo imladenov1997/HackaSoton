@@ -12,7 +12,7 @@ $("#room-join-button").click(function() {
 });
 
 $("#start-game-button").click(function() {
-    window.location.href = new URL("/inprogress/" + "1001", base);
+    window.location.href = new URL("/inprogress/" + gameID + "/" + playerID, base);
 });
 
 $("#room-create-button").click(function() {

@@ -23,7 +23,7 @@ socket.on('playerJoined', function() {
 });
 
 socket.on('getAllPlayers', function(players) {
-    playersJoined = players;
+    addJoinedPlayersToLobby(players);
 });
 
 // sample for sending json

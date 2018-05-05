@@ -26,3 +26,10 @@ $("#room-create-button").click(function() {
 $("#player-name-change").click(function() {
     changeName($("#player-name-input").val());
 });
+
+function addJoinedPlayersToLobby(players) {
+    Object.keys(players).forEach(function(key, index) {
+        $("#joined-players-list")
+            .append($('<li class="list-group-item" id="player' + key + '">' + players[key] + '</li>'));
+    });
+}

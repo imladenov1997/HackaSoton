@@ -1,5 +1,16 @@
 const socket = io();
 
+const initialData = {
+    gameID: gameID,
+    playerID: playerID,
+    page: "lobby/game",
+    data: {}
+};
+
+let playersJoined;
+
+socket.emit('playerJoined', initialData);
+
 socket.on('gameStarts', function(game) {
     console.log("Prepare! Game starts");
     changeName('name');
@@ -9,6 +20,10 @@ socket.on('playerJoined', function() {
     const msg = 'New Player just entered the lobby';
     console.log(msg);
     changeName('name');
+});
+
+socket.on('getAllPlayers', function(players) {
+    playersJoined = players;
 });
 
 // sample for sending json

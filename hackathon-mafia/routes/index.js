@@ -35,7 +35,7 @@ router.get('/join/:gameID', function(req, res, next) {
   } else {
     res.send("No such room");
   }
-})
+});
 
 
 

@@ -12,14 +12,15 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Warewolves Party Game' });
 });
 
-router.get('/create', function(req, res, next) {
-  const gameID = getGameRoomCode();
+router.post('/create', function(req, res, next) {
+  const gameID = 1001;
   const playerID = 1;
   const adminPlayer = new Player(playerID);
   const game = new GameRoom(adminPlayer, gameID)
   currentGameRooms[gameID] = game;
   //Render the lobby page and send back the admin his id
-  res.send("Game code " + game.getGameCode());
+  // res.send("Game code " + game.getGameCode());
+  res.render('master_lobby');
 });
 
 router.post('/getPlayerID/:gameID', function(req, res, next) {
@@ -35,7 +36,11 @@ router.post('/getPlayerID/:gameID', function(req, res, next) {
   }
 });
 
-router.get('/join/', function(req, res, next) {
+router.get('/inprogress/:gameID', function(req, res, next) {
+    res.render('game_page')
+});
+
+router.get('/join/:gameID/:playerID', function(req, res, next) {
     console.log("GET join")
     res.render('player_lobby');
 });

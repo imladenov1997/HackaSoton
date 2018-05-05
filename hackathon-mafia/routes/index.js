@@ -20,7 +20,6 @@ router.post('/create', function(req, res, next) {
   currentGameRooms[gameID] = game;
   //Render the lobby page and send back the admin his id
   res.json({player: playerID, game: gameID});
-
 });
 
 router.post('/getPlayerID/:gameID', function(req, res, next) {
@@ -28,11 +27,12 @@ router.post('/getPlayerID/:gameID', function(req, res, next) {
   if(currentGameRooms.hasOwnProperty(gameID)) {
     const game = currentGameRooms[gameID];
     const playerID = game.getNextPlayerID();
-    const player = new Player(playerID);
-    res.json({player: playerID});
+    const newPlayer = new Player(playerID);
+    game.a
+    res.json({player: playerID}); 
   } else {
     //Not sure what to send here
-    res.send("No such room");
+    res.json({error : "No such room"});
   }
 });
 

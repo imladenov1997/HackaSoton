@@ -16,7 +16,7 @@ module.exports = (function() {
             this.code =  code;
             this.status = 0;
             this.players = {};
-            this.nextPlayerID = 1;
+            this.nextPlayerID = 2;
         }
 
         playerJoined(player) {

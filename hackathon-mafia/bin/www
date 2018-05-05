@@ -31,39 +31,55 @@ var io     = require('socket.io')(server);
 io.on('connection', function(socket) {
     io.emit('playerJoined');
     socket.on('nameChange', function(msg) {
-        console.log('username has been changed: ' + msg.name);
-        io.emit('playerChangedName');
+        if (msg.page === 'lobby') {
+            console.log('username has been changed: ' + msg.name);
+            io.emit('playerChangedName');
+        }
     });
 
     socket.on('playerReady', function(msg) {
-        const allReady = false;
-        if (allReady) {
-          io.emit('allReady');
+        if (msg.page === 'lobby') {
+            const allReady = false;
+            if (allReady) {
+                io.emit('allReady');
+            }
         }
     });
 
     socket.on('vote', function(msg) {
-        io.emit('playerVoted');
+        if (msg.page === 'game') {
+            io.emit('playerVoted');
+        }
     });
 
     socket.on('sheriffVote', function(msg) {
+        if (msg.page === 'game') {
 
+        }
     });
 
     socket.on('doctorVote', function(msg) {
+        if (msg.page === 'game') {
 
+        }
     });
 
     socket.on('mafiaVote', function(msg) {
+        if (msg.page === 'game') {
 
+        }
     });
 
     socket.on('removeRoleScreen', function(msg) {
+        if (msg.page === 'game') {
 
+        }
     });
 
     socket.on('playerAsleep', function(msg) {
-      // here emit allAsleep
+        if (msg.page === 'game') {
+
+        }
     });
 });
 

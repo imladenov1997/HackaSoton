@@ -24,12 +24,19 @@ $("#room-create-button").click(function() {
 });
 
 $("#player-name-change").click(function() {
-    changeName($("#player-name-input").val());
+    let newName = $("#player-name-input").val();
+    changeName(newName);
+    $("#your-name-span").text(newName);
 });
 
 function addJoinedPlayersToLobby(players) {
+    console.log(players);
     Object.keys(players).forEach(function(key, index) {
-        $("#joined-players-list")
-            .append($('<li class="list-group-item" id="player' + key + '">' + players[key] + '</li>'));
+        addPlayerToLobby(key, players[key]);
     });
+}
+
+function addPlayerToLobby(pid, pname) {
+    $("#joined-players-list")
+            .append($('<li class="list-group-item" id="player' + pid + '">' + pname + '</li>'));
 }

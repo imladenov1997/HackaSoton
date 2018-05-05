@@ -16,14 +16,19 @@ socket.on('gameStarts', function(game) {
     changeName('name');
 });
 
-socket.on('playerJoined', function() {
-    const msg = 'New Player just entered the lobby';
-    console.log(msg);
-    changeName('name');
+socket.on('playerJoined', function(data) {
+    console.log('join handlesr');
+    if ($("#player" + data.playerID).length == 0) {
+        addPlayerToLobby(data.playerID, data.playerName);
+    }
 });
 
+let wereAdded = false;
 socket.on('getAllPlayers', function(players) {
-    addJoinedPlayersToLobby(players);
+    if(!wereAdded) {
+        addJoinedPlayersToLobby(players);
+        wereAdded = true;
+    }
 });
 
 // sample for sending json
@@ -37,7 +42,7 @@ var sample = {
 };
 
 socket.on('playerChangedName', function(msg) {
-
+    // $(msg.
 });
 
 
@@ -50,5 +55,6 @@ function changeName(name) {
             name: name
         }
     }
+    console.log(playerName)
     socket.emit('nameChange', playerName);
 }

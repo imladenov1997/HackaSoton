@@ -33,11 +33,11 @@ io.on('connection', (socket) => {
     socket.on('playerJoined', (msg) => {
         const game = gameRooms[msg.gameID];
         const gamePlayers = game.getPlayersNames();
-        console.log(gamePlayers);
+
         socket.emit('getAllPlayers', gamePlayers);
         const playerInfo = {
             playerID : msg.playerID,
-            playerName : game.players[msg.playerID] 
+            playerName : game.players[msg.playerID].name
         };
         io.emit('playerJoined', playerInfo);
     });
@@ -45,8 +45,8 @@ io.on('connection', (socket) => {
     socket.on('nameChange', (msg) => {
         if (msg.page === 'lobby') {
             const game = gameRooms[msg.gameID];
-            const player = game[msg.playerID];
-            player.changeName
+            const player = game.players[msg.playerID];
+            player.name = msg.data.name;
             console.log('username has been changed: ' + msg.data.name);
             io.emit('playerChangedName');
         }

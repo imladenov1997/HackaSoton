@@ -17,7 +17,6 @@ socket.on('gameStarts', function(game) {
 });
 
 socket.on('playerJoined', function(data) {
-    console.log('join handlesr');
     if ($("#player" + data.playerID).length == 0) {
         addPlayerToLobby(data.playerID, data.playerName);
     }
@@ -42,7 +41,7 @@ var sample = {
 };
 
 socket.on('playerChangedName', function(msg) {
-    // $(msg.
+    $("#player" + msg.playerID).text(msg.newName);
 });
 
 

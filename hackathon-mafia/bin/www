@@ -48,7 +48,7 @@ io.on('connection', (socket) => {
             const player = game.players[msg.playerID];
             player.name = msg.data.name;
             console.log('username has been changed: ' + msg.data.name);
-            io.emit('playerChangedName');
+            io.emit('playerChangedName', { playerID: msg.playerID, newName: msg.data.name });
         }
     });
 

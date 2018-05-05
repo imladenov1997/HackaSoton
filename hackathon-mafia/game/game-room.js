@@ -19,7 +19,7 @@ module.exports = (function() {
             this.nextPlayerID = 2;
         }
 
-        playerJoined(player) {
+        playerJoined(player, playerID) {
             this.players[playerID] = player;
         }
 
@@ -33,6 +33,5 @@ module.exports = (function() {
         }
 
     }
-
     return GameRoom;
 }());

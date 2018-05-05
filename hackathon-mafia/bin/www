@@ -28,7 +28,7 @@ var io     = require('socket.io')(server);
 
 io.on('connection', function(socket) {
     socket.on('nameChange', function(msg) {
-        console.log('username has been changed');
+        console.log('username has been changed: ' + msg['name']);
         io.emit('gameStarts', msg);
     });
 });

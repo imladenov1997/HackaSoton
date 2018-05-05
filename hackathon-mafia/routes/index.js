@@ -36,13 +36,25 @@ router.post('/getPlayerID/:gameID', function(req, res, next) {
   }
 });
 
-router.get('/inprogress/:gameID', function(req, res, next) {
-    res.render('game_page')
+function isAdmin(gameRequest) {
+  const game = currentGameRooms[gameRequest.params.gameID];
+  return game.admin.id == gameRequest.params.playerID;
+}
+
+router.get('/inprogress/:gameID/:playerID', function(req, res, next) {
+  if (isAdmin(req)) {
+    res.render('admin_game_page', { game: req.params.gameID, player: req.params.playerID });
+  } else {
+    res.render('game_page', { game: req.params.gameID, player: req.params.playerID });
+  }
 });
 
 router.get('/join/:gameID/:playerID', function(req, res, next) {
-    console.log("GET join")
-    res.render('player_lobby');
+    if (isAdmin(req)) {
+      res.render('master_lobby', { game: req.params.gameID, player: req.params.playerID });
+    } else {
+      res.render('player_lobby', { game: req.params.gameID, player: req.params.playerID });
+    }
 });
 
 //Generate a game room code

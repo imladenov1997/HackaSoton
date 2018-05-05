@@ -1,12 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const io = require('socket.io');
 const GameRoom = require("../game/game-room");
 const Player = require("../game/player");
 
 let currentGameRooms = {};
 const MAX_NUM_PLAYERS = 20;
-
 
 /* GET home page with options to start/join a game. */
 router.get('/', function(req, res, next) {
@@ -49,6 +47,6 @@ function getGameRoomCode() {
 }
 
 module.exports = {
-  appRouter: router,
-  gameRooms: currentGameRooms,
+    appRouter: router,
+    gameRooms: currentGameRooms,
 };

@@ -14,7 +14,8 @@ socket.on('playerJoined', function() {
 
 // sample for sending json
 var sample = {
-    id: 0,
+    gameID: 0,
+    playerID: 1,
     page: "lobby/game",
     data: {
 

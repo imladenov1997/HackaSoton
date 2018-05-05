@@ -11,13 +11,6 @@
     <link rel="stylesheet" type="text/css" href="/stylesheets/mystyles.css">
 </head>
 <body>
-    <script>
-        var socket = io();
-        socket.emit('nameChange', {});
-        socket.on('gameStarts', function(game) {
-            console.log("Prepare! Game starts");
-        });
-    </script>
 
     {{{body}}}
 

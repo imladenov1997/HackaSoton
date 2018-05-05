@@ -29,7 +29,7 @@ router.post('/getPlayerID/:gameID', function(req, res, next) {
     const playerID = game.getNextPlayerID();
     const newPlayer = new Player(playerID);
 
-    game.playerJoined(newPlayer);
+    game.playerJoined(newPlayer, playerID);
 
     res.json({player: playerID, game: gameID}); 
   } else {

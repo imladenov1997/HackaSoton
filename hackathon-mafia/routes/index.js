@@ -20,7 +20,6 @@ router.post('/create', function(req, res, next) {
   currentGameRooms[gameID] = game;
   //Render the lobby page and send back the admin his id
   res.json({player: playerID, game: gameID});
-
 });
 
 router.post('/getPlayerID/:gameID', function(req, res, next) {
@@ -28,21 +27,34 @@ router.post('/getPlayerID/:gameID', function(req, res, next) {
   if(currentGameRooms.hasOwnProperty(gameID)) {
     const game = currentGameRooms[gameID];
     const playerID = game.getNextPlayerID();
-    const player = new Player(playerID);
-    res.json({player: playerID});
+    const newPlayer = new Player(playerID);
+    game.a
+    res.json({player: playerID}); 
   } else {
     //Not sure what to send here
-    res.send("No such room");
+    res.json({error : "No such room"});
   }
 });
 
-router.get('/inprogress/:gameID', function(req, res, next) {
-    res.render('game_page')
+function isAdmin(gameRequest) {
+  const game = currentGameRooms[gameRequest.params.gameID];
+  return game.admin.id == gameRequest.params.playerID;
+}
+
+router.get('/inprogress/:gameID/:playerID', function(req, res, next) {
+  if (isAdmin(req)) {
+    res.render('admin_game_page', { game: req.params.gameID, player: req.params.playerID });
+  } else {
+    res.render('game_page', { game: req.params.gameID, player: req.params.playerID });
+  }
 });
 
 router.get('/join/:gameID/:playerID', function(req, res, next) {
-    console.log("GET join")
-    res.render('player_lobby');
+    if (isAdmin(req)) {
+      res.render('master_lobby', { game: req.params.gameID, player: req.params.playerID });
+    } else {
+      res.render('player_lobby', { game: req.params.gameID, player: req.params.playerID });
+    }
 });
 
 //Generate a game room code

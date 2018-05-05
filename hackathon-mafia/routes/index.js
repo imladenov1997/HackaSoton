@@ -12,8 +12,8 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Warewolves Party Game' });
 });
 
-router.get('/create', function(req, res, next) {
-  const gameID = getGameRoomCode();
+router.post('/create', function(req, res, next) {
+  const gameID = 1001;
   const playerID = 1;
   const adminPlayer = new Player(playerID);
   const game = new GameRoom(adminPlayer, gameID)
@@ -40,7 +40,7 @@ router.get('/inprogress/:gameID', function(req, res, next) {
     res.render('game_page')
 });
 
-router.get('/join/', function(req, res, next) {
+router.get('/join/:gameID/:playerID', function(req, res, next) {
     console.log("GET join")
     res.render('player_lobby');
 });

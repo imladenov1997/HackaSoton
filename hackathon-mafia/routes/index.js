@@ -25,25 +25,27 @@ router.get('/create', function(req, res, next) {
   res.render('master_lobby');
 });
 
-router.get('/join/:gameID', function(req, res, next) {
+router.post('/getPlayerID/:gameID', function(req, res, next) {
   const gameID = req.params.gameID;
   if(currentGameRooms.hasOwnProperty(gameID)) {
     const game = currentGameRooms[gameID];
     const playerID = game.getNextPlayerID();
     const player = new Player(playerID);
-    // res.send("Joined room " + gameID + "\nPlayer ID" + playerID);
-    res.render('player_lobby');
-    //Send back the client ID
+    res.send("Player" + playerID);
   } else {
+    //Not sure what to send here
     res.send("No such room");
   }
 });
 
 router.get('/inprogress/:gameID', function(req, res, next) {
     res.render('game_page')
-})
+});
 
-
+router.get('/join/', function(req, res, next) {
+    console.log("GET join")
+    res.render('player_lobby');
+});
 
 //Generate a game room code
 function getGameRoomCode() {

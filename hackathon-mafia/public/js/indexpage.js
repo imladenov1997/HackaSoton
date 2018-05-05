@@ -15,6 +15,6 @@ $("#start-game-button").click(function() {
     window.location.href = new URL("/inprogress/" + "1001", base);
 });
 
-// $("#room-create-button").click(function() {
-//     window.location.href = new URL("/create", base);
-// });
+$("#room-create-button").click(function() {
+    window.location.href = new URL("/create", base);
+});

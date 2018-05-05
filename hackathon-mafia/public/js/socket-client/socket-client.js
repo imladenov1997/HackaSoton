@@ -31,7 +31,7 @@ function changeName(name) {
 }
 
 function setReady() {
-    socket.emit('playerReady');
+    socket.emit('playerReady', );
 }
 
 function vote() {

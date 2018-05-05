@@ -57,6 +57,10 @@ io.on('connection', function(socket) {
     socket.on('mafiaVote', function(msg) {
 
     });
+
+    socket.on('removeRoleScreen', function(msg) {
+
+    });
 });
 
 

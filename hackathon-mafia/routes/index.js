@@ -6,4 +6,8 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
+router.get('/room/:roomId', function(req, res, next) {
+    res.render('player_lobby', req.params)
+});
+
 module.exports = router;

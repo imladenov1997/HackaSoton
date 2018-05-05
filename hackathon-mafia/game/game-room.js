@@ -27,6 +27,11 @@ module.exports = (function() {
         getNextPlayerID() {
             return this.nextPlayerID++;
         }
+
+        getGameCode() {
+            return this.code;
+        }
+
     }
 
     return GameRoom;

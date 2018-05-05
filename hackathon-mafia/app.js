@@ -1,10 +1,11 @@
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var exphbs  = require('express-handlebars');
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/game');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const exphbs  = require('express-handlebars');
+const routerModule = require('./routes/index');
+const indexRouter = routerModule.appRouter
+const gameRooms = routerModule.gameRooms
 
 var app = express();
 
@@ -18,6 +19,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
 
-module.exports = app;
+module.exports = {
+    expressApp: app,
+    gameRooms: gameRooms
+};

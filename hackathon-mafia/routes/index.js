@@ -4,7 +4,6 @@ const io = require('socket.io');
 const GameRoom = require("../game/game-room");
 const Player = require("../game/player");
 
-
 let currentGameRooms = {};
 const MAX_NUM_PLAYERS = 20;
 
@@ -15,37 +14,41 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Warewolves Party Game' });
 });
 
-router.post('/create', function(req, res, next) {
+router.get('/create', function(req, res, next) {
   const gameID = getGameRoomCode();
   const playerID = 1;
-  //open a socket for the client requesting to create a game (the admin of  the game)
-  // const socket; //TODO Ivo
-  // const adminPlayer = Player(playerID, socket);
-  // const game = GameRoom(adminPlayer, gameID)
-  // currentGameRooms[gameID] = game;
-  //Render view #2
+  const adminPlayer = new Player(playerID);
+  const game = new GameRoom(adminPlayer, gameID)
+  currentGameRooms[gameID] = game;
+  //Render the lobby page and send back the admin his id
+  res.send("Game code " + game.getGameCode());
 });
 
-router.post('/join:gameID', function(req, res, next) {
+router.get('/join/:gameID', function(req, res, next) {
   const gameID = req.params.gameID;
   if(currentGameRooms.hasOwnProperty(gameID)) {
     const game = currentGameRooms[gameID];
     const playerID = game.getNextPlayerID();
-    //Open a socket for the client
-    const socket;
-    const player = Player(playerID);
-    
+    const player = new Player(playerID);
+    res.send("Joined room " + gameID + "\nPlayer ID" + playerID);
+    //Send back the client ID
   } else {
-    //Send an error message to the client
+    res.send("No such room");
   }
 })
 
+
+
+//Generate a game room code
 function getGameRoomCode() {
+  id = id = Math.floor(1000 + Math.random() * 9000);
   while (currentGameRooms.hasOwnProperty(id)) {
     id = id = Math.floor(1000 + Math.random() * 9000);
   }
   return id;
 }
 
-
-module.exports = router;
+module.exports = {
+  appRouter: router,
+  gameRooms: currentGameRooms,
+};

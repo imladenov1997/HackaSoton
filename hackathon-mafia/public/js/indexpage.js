@@ -1,4 +1,9 @@
+let base = new URL(window.location.origin);
+
 $("#room-join-button").click(function() {
-    var base = new URL(window.location.origin);
-    window.location.href = "/room/" + $("#room-code-input").val();
+    window.location.href = new URL("/room/" + $("#room-code-input").val(), base);
+});
+
+$("#room-create-button").click(function() {
+    window.location.href = new URL("/create", base);
 });

@@ -23,10 +23,11 @@ router.post('/create', function(req, res, next) {
   // const game = GameRoom(adminPlayer, gameID)
   // currentGameRooms[gameID] = game;
   //Render view #2
+  res.render('master_lobby');
 });
 
 router.get('/room/:roomId', function(req, res, next) {
-    res.render('player_lobby', req.params)
+    res.render('player_lobby', req.params);
 });
 
 module.exports = router;

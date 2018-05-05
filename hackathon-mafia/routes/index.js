@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const io = require('socket.io');
 const GameRoom = require("../game/game-room");
 const Player = require("../game/player");
 
@@ -17,11 +18,15 @@ router.post('/create', function(req, res, next) {
   const gameID = Math.floor(1000 + Math.random() * 9000);
   const playerID = Math.random();
   //open a socket for the client requesting to create a game (the admin of  the game)
-  const socket; //TODO Ivo
-  const adminPlayer = Player(playerID, socket);
-  const game = GameRoom(adminPlayer, gameID)
-  currentGameRooms[gameID] = game;
+  // const socket; //TODO Ivo
+  // const adminPlayer = Player(playerID, socket);
+  // const game = GameRoom(adminPlayer, gameID)
+  // currentGameRooms[gameID] = game;
   //Render view #2
+});
+
+router.get('/room/:roomId', function(req, res, next) {
+    res.render('player_lobby', req.params)
 });
 
 module.exports = router;

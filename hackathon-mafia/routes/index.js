@@ -12,14 +12,14 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Warewolves Party Game' });
 });
 
-router.get('/create', function(req, res, next) {
+router.post('/create', function(req, res, next) {
   const gameID = getGameRoomCode();
   const playerID = 1;
   const adminPlayer = new Player(playerID);
   const game = new GameRoom(adminPlayer, gameID)
   currentGameRooms[gameID] = game;
   //Render the lobby page and send back the admin his id
-  res.send("Game code " + game.getGameCode());
+  res.json({"playerID": playerID, "gameID": gameID});
 });
 
 router.post('/getPlayerID/:gameID', function(req, res, next) {

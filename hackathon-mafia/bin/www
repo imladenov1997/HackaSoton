@@ -20,6 +20,18 @@ app.set('port', port);
  */
 
 var server = http.createServer(app);
+var io     = require('socket.io')(server);
+
+/**
+ * Socket IO
+ */
+
+io.on('connection', function(socket) {
+    socket.on('nameChange', function(msg) {
+        console.log('username has been changed');
+    });
+});
+
 
 /**
  * Listen on provided port, on all network interfaces.

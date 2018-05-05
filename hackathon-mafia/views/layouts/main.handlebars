@@ -10,18 +10,11 @@
     <link rel="stylesheet" type="text/css" href="stylesheets/half-slider.css">
 
 </head>
-<script src="/socket.io/socket.io.js"></script>
 <body>
-<script>
-    var socket = io();
-    socket.emit('nameChange', {});
-    socket.on('gameStarts', function(game) {
-        console.log("Prepare! Game starts");
-    });
-</script>
     {{{body}}}
-
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
     <script type="text/javascript" src="js/jquery/jquery.min.js"></script>
     <script type="text/javascript" src="js/bootstrap/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/socket-client/socket-client.js"></script>
 </body>
 </html>

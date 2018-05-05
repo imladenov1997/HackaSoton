@@ -24,5 +24,5 @@ $("#room-create-button").click(function() {
 });
 
 $("#player-name-change").click(function() {
-    
-})
+    changeName($("#player-name-input").val());
+});

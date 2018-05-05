@@ -80,7 +80,7 @@ function sheriffVote(id) {
     socket.emit('sheriffVote', checkedPlayer);
 }
 
-function doctorVote(id){
+function doctorVote(id) {
     const curedPlayer = {
         gameID: gameID,
         playerID: playerID,
@@ -105,5 +105,13 @@ function mafiaVote(id) {
 }
 
 function fallAsleep() {
-    socket.emit('playerAsleep');
+    const playerAsleep = {
+        gameID: gameID,
+        playerID: playerID,
+        page: "game",
+        data: {
+            isSleeping: true
+        }
+    };
+    socket.emit('playerAsleep', playerAsleep);
 }

@@ -3,7 +3,7 @@ const socket = io();
 const initialData = {
     gameID: gameID,
     playerID: playerID,
-    page: "lobby/game",
+    page: "lobby",
     data: {}
 };
 

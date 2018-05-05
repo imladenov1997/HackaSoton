@@ -37,7 +37,7 @@ io.on('connection', function(socket) {
     socket.on('nameChange', function(msg) {
         if (msg.page === 'lobby') {
             console.log('username has been changed: ' + msg.data.name);
-            io.emit('playerChangedName', );
+            io.emit('playerChangedName');
         }
     });
 

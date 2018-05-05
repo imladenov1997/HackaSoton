@@ -16,20 +16,33 @@ module.exports = (function() {
             this.code =  code;
             this.status = 0;
             this.players = {};
-            this.nextPlayerID = 2;
+            this.numPlayers = 1;
         }
 
         playerJoined(player, playerID) {
             this.players[playerID] = player;
+            this.numPlayers++;
         }
 
         //Each player gets the next possible ID
         getNextPlayerID() {
-            return this.nextPlayerID++;
+            this.numPlayers++;
+            return this.numPlayers;
         }
 
         getGameCode() {
             return this.code;
+        }
+
+        //Returns an object with players associated with their ids
+        getPlayersNames() {
+            let allPlayers = {};
+            for(let i = 0; i < this.numPlayers - 1; i++) {
+                if(this.players.hasOwnProperty(i)) {
+                    allPlayers[i] = this.players[i].name;
+                }
+            }
+            return this.allPlayers;
         }
 
     }

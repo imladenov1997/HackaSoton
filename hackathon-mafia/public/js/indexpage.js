@@ -22,3 +22,7 @@ $("#room-create-button").click(function() {
         window.location.href = lobbyUrl;
     });
 });
+
+$("#player-name-change").click(function() {
+    
+})

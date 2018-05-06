@@ -5,7 +5,12 @@ module.exports = (function() {
         0 : "Not initiated",
         1 : "Lobby",
         2 : "ConfirmedPlayers"
-    }
+    };
+
+    const specialCharacters = [
+        "Doctor",
+        "Seer"
+    ]
 
     class GameRoom {
         /**
@@ -17,6 +22,8 @@ module.exports = (function() {
             this.status = 0;
             this.players = {1: admin};
             this.numPlayers = 1;
+            this.votes = {};
+            this.elected = {};
         }
 
         playerJoined(player, playerID) {
@@ -26,7 +33,6 @@ module.exports = (function() {
 
         //Each player gets the next possible ID
         getNextPlayerID() {
-            this.numPlayers++;
             return this.numPlayers;
         }
 
@@ -40,10 +46,54 @@ module.exports = (function() {
         
             for (var key in this.players) {
                 if (this.players.hasOwnProperty(key)) {
-                    allPlayers[key] = this.players[key].name
+                    allPlayers[key] = this.players[key].name;
                 }
             }
             return allPlayers;
+        }
+
+        addVote(voter, voted) {
+            this.votes[voter] = voted;
+        }
+
+        countVotes() {
+            for (let key in votes) {
+                if (this.elected[votes[key]] !== undefined) {
+                    this.elected[votes[key]]++;
+                } else {
+                    this.elected[votes[key]] = 1;
+                }
+            }
+
+            let maxVotesId = -1;
+
+            for (let keyElected in elected) {
+                if (this.elected[maxVotesId] === undefined || this.elected[keyElected] > this.elected[maxVotesId]) {
+                    maxVotesId = keyElected;
+                }
+            }
+
+            // reset votes for next round
+            this.votes = {};
+            this.elected = {};
+
+            return maxVotesId;
+        }
+
+        initialize() {
+            //Assigning of roles
+            let playersIDs = this.players.keys();
+            playersIDs.sort(function(a, b){return 0.5 - Math.random()});
+            let i = 0;
+            playersIDs.forEach(element => {
+                if(i < specialCharacters.length - 1) {
+                    this.players[element].assignRole(specialCharacters[parseInt(element)]);
+                } else if(i%3 == 0) {
+                    this.players[element].assignRole("Warewolf");
+                } else {
+                    this.players[element].assignRole("Peasant");
+                }
+            });
         }
 
     }

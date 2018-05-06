@@ -50,6 +50,9 @@ function playerName(gameRequest) {
 
 router.get('/inprogress/:gameID/:playerID', function(req, res, next) {
   if (isAdmin(req)) {
+    const gameID = req.params.gameID;
+    const game = currentGameRooms[gameID];
+    game.initialize();
     res.render('admin_game_page', { game: req.params.gameID, player: req.params.playerID, name: playerName(req) });
   } else {
     res.render('game_page', { game: req.params.gameID, player: req.params.playerID, name: playerName(req) });
@@ -57,6 +60,7 @@ router.get('/inprogress/:gameID/:playerID', function(req, res, next) {
 });
 
 router.get('/join/:gameID/:playerID', function(req, res, next) {
+
     if (isAdmin(req)) {
       res.render('master_lobby', { game: req.params.gameID, player: req.params.playerID, name: playerName(req) });
     } else {

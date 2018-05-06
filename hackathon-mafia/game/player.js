@@ -60,6 +60,9 @@ module.exports = (function() {
             this.name = newName;
         }
 
+        assignRole(role) {
+            this.role = role;
+        }
         setStatus(status) {
             this.status = status;
         }

@@ -42,6 +42,33 @@ module.exports = (function() {
         "Musk"
     ];
 
+    const rolesInfo = {
+        werewolf: {
+            id: 0,
+            displayName: "Werewolf",
+            scriptName: "werewolf",
+            description: "Kills during the night"
+        },
+        doctor: {
+            id: 1,
+            displayName: "Doctor",
+            scriptName: "doctor",
+            description: "The good guy who heals people"
+        },
+        seer: {
+            id: 2,
+            displayName: "Seer",
+            scriptName: "seer",
+            description: "Can check if a player is a werewolf"
+        },
+        peasant: {
+            id: 3,
+            displayName: "Peasant",
+            scriptName: "peasant",
+            description: "Just a peasant"
+        }
+    }
+
     class Player {
         /**
          * Constructor for the GameRoom object
@@ -61,7 +88,7 @@ module.exports = (function() {
         }
 
         assignRole(role) {
-            this.role = role;
+            this.role = rolesInfo[role];
         }
         setStatus(status) {
             this.status = status;

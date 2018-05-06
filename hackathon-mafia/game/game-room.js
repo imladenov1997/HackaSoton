@@ -42,7 +42,7 @@ module.exports = (function() {
                     allPlayers[i] = this.players[i].name;
                 }
             }
-            return this.allPlayers;
+            return allPlayers;
         }
 
     }

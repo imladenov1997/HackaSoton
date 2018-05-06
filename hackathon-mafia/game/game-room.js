@@ -17,6 +17,8 @@ module.exports = (function() {
             this.status = 0;
             this.players = {1: admin};
             this.numPlayers = 1;
+            this.votes = {};
+            this.elected = {};
         }
 
         playerJoined(player, playerID) {
@@ -45,6 +47,38 @@ module.exports = (function() {
             }
             return allPlayers;
         }
+
+        addVote(voter, voted) {
+            this.votes[voter] = voted;
+        }
+
+        countVotes() {
+            for (let key in votes) {
+                if (this.elected[votes[key]] !== undefined) {
+                    this.elected[votes[key]]++;
+                } else {
+                    this.elected[votes[key]] = 1;
+                }
+            }
+
+            let maxVotesId = -1;
+
+            for (let keyElected in elected) {
+                if (this.elected[maxVotesId] === undefined || this.elected[keyElected] > this.elected[maxVotesId]) {
+                    maxVotesId = keyElected;
+                }
+            }
+
+            // reset votes for next round
+            this.votes = {};
+            this.elected = {};
+
+            return maxVotesId;
+        }
+
+
+
+
 
     }
     return GameRoom;

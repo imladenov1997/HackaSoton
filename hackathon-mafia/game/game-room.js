@@ -4,12 +4,14 @@ module.exports = (function() {
     const gameStatus = {
         0 : "Not initiated",
         1 : "Lobby",
-        2 : "ConfirmedPlayers"
+        2 : "ConfirmedPlayers",
+        
     };
 
+
     const specialCharacters = [
-        "Doctor",
-        "Seer"
+        "doctor",
+        "seer"
     ]
 
     class GameRoom {
@@ -29,21 +31,23 @@ module.exports = (function() {
                 elected: {},
                 length: 0
             };
-            this.mafiaElections = {
-                votes: {},
-                elected: {},
-                length: 0
-            };
+            this.playersAsleep = 0;
+            this.playerKilledByMafia;
+            this.playerHealed;
             this.numOfMafia = 0;
         }
 
         playerJoined(player, playerID) {
             this.players[playerID] = player;
-            this.numPlayers++;
+        }
+
+        allPlayersAsleep() {
+            return this.playersAsleep === this.numPlayers;
         }
 
         //Each player gets the next possible ID
         getNextPlayerID() {
+            this.numPlayers += 1;
             return this.numPlayers;
         }
 
@@ -63,10 +67,33 @@ module.exports = (function() {
             return allPlayers;
         }
 
+        getPlayersList() {
+            const playersList = [];
+            let i = 0;
+            for (let player in this.players) {
+                if (players.hasOwnProperty(player)) {
+                    playersList[i] = {
+                        playerID: this.players[player].id,
+                        playerName: this.players[player].name
+                    };
+                    i += 1;
+                }
+
+            }
+            return playersList;
+        }
+
         // vote during the day
         addVote(voter, voted) {
             this.elections.length = this.elections.votes[voter] === undefined ? this.elections.length + 1 : this.elections.length;
             this.elections.votes[voter] = voted;
+        }
+
+        getNightOutcome() {
+            if(this.playerHealed === this.playerKilledByMafia) {
+                this.playerKilledByMafia = 0;
+            }
+            return {playerKilled: this.playerKilledByMafia};
         }
 
         // count votes during the day
@@ -117,51 +144,7 @@ module.exports = (function() {
             return (this.numOfMafia >= this.alive - this.numOfMafia || this.numOfMafia === 0); // returns true if the game has finished
         }
 
-        //TO BE CHANGED
-        addMafiaVote(voter, voted) {
-            if (this.players[voter].role === 'Werewolf' || this.players[id].role === 'Alpha Wolf') {
-                // this.mafiaElections.length = this.mafiaElections.votes[voter] === undefined ?
-                this.mafiaElections.votes[voter] = voted;
-
-            }
-        }
-
-        // TO BE CHANGED
-        countMafiaVotes() {
-            if (this.numOfMafia === this.mafiaElections.length) {
-                for (let key in votes) {
-                    if (this.mafiaElections.elected[this.mafiaElections.votes[key]] !== undefined) {
-                        this.mafiaElections.elected[this.mafiaElections.votes[key]]++;
-                    } else {
-                        this.mafiaElections.elected[this.mafiaElections.votes[key]] = 1;
-                    }
-                }
-
-                let maxVotesId = -1;
-
-                for (let keyElected in this.elections.elected) {
-                    if (this.mafiaElections.elected[maxVotesId] === undefined || this.mafiaElections.elected[keyElected] > this.mafiaElections.elected[maxVotesId]) {
-                        maxVotesId = keyElected;
-                    }
-                }
-
-                // reset votes for next round
-                this.mafiaElections = {
-                    votes: {},
-                    elected: {},
-                    length: 0
-                };
-
-                if (maxVotesId !== -1) {
-                    this.kill(maxVotesId);
-                }
-
-                return maxVotesId; // return the killed person (-1 for no one was killed)
-            }
-
-            return -2; // not all of the mafia have voted
-        }
-
+        
 
         initialize() {
             //Assigning of roles
@@ -172,10 +155,10 @@ module.exports = (function() {
                 if(i < specialCharacters.length) {
                     this.players[element].assignRole(specialCharacters[i]);
                 } else if(i%3 == 0) {
-                    this.players[element].assignRole("Werewolf");
+                    this.players[element].assignRole("werewolf");
                     this.numOfMafia += 1;
                 } else {
-                    this.players[element].assignRole("Peasant");
+                    this.players[element].assignRole("peasant");
                 }
                 i += 1;
             });

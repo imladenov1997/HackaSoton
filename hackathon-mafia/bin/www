@@ -78,6 +78,8 @@ io.on('connection', (socket) => {
         }
     });
 
+
+
     socket.on('adminStartedGame', (game) => {
         io.emit('gameStarts');
     });
@@ -95,64 +97,74 @@ io.on('connection', (socket) => {
         }
     });
 
+    socket.on('vote', (msg) => {
+        if (msg.page === 'game') {
+            const game = gameRooms[msg.gameID];
+
+        }
+    });
+
     socket.on('sheriffVote', (msg) => {
         if (msg.page === 'game') {
             const game = gameRooms[msg.gameID];
-            const player = game.players[msg.playerID];
             const checkedPlayer = game.players[msg.data.checkedPlayer];
-
 
             const message = {
                 gameID: msg.gameID,
                 playerID: msg.playerID,
                 data: {
-                    id: msg.data.checkedPlayer,
-                    isMafia: (player.role === 'Werewolf')
+                    isMafia: (player.role.id === 0)
                 }
             };
 
-            socket.emit('isMafia', message);
+            socket.emit('isMafia', message); //Only in sheriff script
+            const msg = game.getNightOutcome();
+            setTimeout(() => {
+                io.emit("wakeUp", msg)
+            }, 5000);
         }
     });
 
     socket.on('doctorVote', (msg) => {
         if (msg.page === 'game') {
             const game = gameRooms[msg.gameID];
-            const player = game.players[msg.playerID];
-            const curedPlayer = game.players[msg.data.curedPlayer];
+            const player = game.players[msg.data.curedPlayer];
+            game.playerHealed = player.id;
 
-
-            const message = {
-                gameID: msg.gameID,
-                playerID: msg.playerID,
-                data: {
-
-                }
-            };
-
-            // here when mafia votes, should check if the voted id is the same as the cured id
+            setTimeout(() => {
+                io.emit("sheriffTime")
+            }, 5000);
         }
     });
 
+    //When the werewolfs press the kill button
+    socket.on('mafiaKills', (msg) => {
+        setTimeout(() => {
+            io.emit("doctorTime");
+        }, 5000)
+    });
+
+    //When mafia selects a player to kill
     socket.on('mafiaVote', (msg) => {
         if (msg.page === 'game') {
             const game = gameRooms[msg.gameID];
-            const player = game.players[msg.playerID];
-            if (player.status === "ALIVE") {
-                game.addMafiaVote(msg.playerID, msg.data.votedPlayerId);
+            game.playerKilledByMafia = msg.data.playerToKill;
+            const msg = {
+                playerToKill: msg.data.playerToKill
             }
+            io.emit("voteChange", msg); //Only in mafia script
         }
     });
 
-    socket.on('removeRoleScreen', (msg) => {
-        if (msg.page === 'game') {
-
-        }
-    });
-
+    //When the player clicks Ready on the role screen
     socket.on('playerAsleep', (msg) => {
         if (msg.page === 'game') {
-
+            const game = gameRooms[msg.gameID];
+            game.playersAsleep += 1;
+            
+            if(game.allPlayersAsleep()) {
+                io.emit("mafiaTime");
+            } 
         }
     });
 });

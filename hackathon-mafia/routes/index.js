@@ -49,6 +49,7 @@ function playerName(gameRequest) {
 }
 
 router.get('/inprogress/:gameID/:playerID', function(req, res, next) {
+  //TODO list of players should be sent playerID, names
   const gameID = req.params.gameID;
   const playerID = req.params.playerID;
   const game = currentGameRooms[gameID];
@@ -62,6 +63,7 @@ router.get('/inprogress/:gameID/:playerID', function(req, res, next) {
     player: playerID, 
     name: playerName(req),
     role: game.players[playerID].role,
+    playersData: game.getPlayersList(),
   };
 
   console.log(data);

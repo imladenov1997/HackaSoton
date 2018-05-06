@@ -120,10 +120,14 @@ io.on('connection', (socket) => {
                         const outcome = game.getDayOutcome();
                         io.emit('voteFinished', outcome);
                         const gameStatus = game.getGameStatus();
-                        if(gameStatus.finished) {
+                        if(false) {
                             io.emit('gameFinished', gameStatus);
                         } else {
                             game.status = "MAFIA";
+                            console.log('fall_asleep');
+                            setTimeout(function() {
+                                io.emit("fallAsleep");
+                            }, 5000);
                         }
                     }, 20000)
                     io.emit("wakeUp", outcomeN);

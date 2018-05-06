@@ -28,6 +28,7 @@ module.exports = (function() {
             this.playerKilledByMafia;
             this.playerHealed;
             this.numOfMafia = 0;
+            this.gameOver = 0;
         }
 
         playerJoined(player, playerID) {

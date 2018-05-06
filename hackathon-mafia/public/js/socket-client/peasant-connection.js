@@ -13,14 +13,18 @@ socket.on('allAsleep', function(msg) {
 
 });
 
-socket.on('killed', function(data) {
+socket.on('voteFinished', function(data) {
+    console.log('vote voteFinished');
     changeStatusMessage(data.playerName + " was lynched by the town.");
 });
 
 socket.on('wakeUp', function(msg) {
     if (alive) {
-        if (playerID === msg.playerKilledByMafia) {
+        // console.log(msg.playerKilled);
+        // console.log(playerID);
+        if (playerID === msg.playerKilled) {
             navigateTo("death-screen");
+            alive = false;
         } else {
             showVotedDisplays();
             showClock();
@@ -41,11 +45,14 @@ socket.on('voteTime', function(msg) {
 
 socket.on('playerVoted', function(msg) {
     if (alive) {
-        $(msg.voteById + "-voted-message").text("Voted for " + msg.voteForName);
+        console.log('change update');
+        console.log(msg.voteByID);
+        $("#" + msg.data.voteById + "-voted-display").text("Voted for " + msg.voteForName);
     }
 });
 
 socket.on('fallAsleep', function(msg) {
+    console.log('fall asleep');
     if (alive) {
         navigateTo("sleep-screen");
         console.log('fallen asleep');

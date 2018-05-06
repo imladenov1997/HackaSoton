@@ -70,9 +70,14 @@ io.on('connection', (socket) => {
 
             if (allReady) {
                 io.emit('allReady');
+                setTimeout(() => {
+                    io.emit("gameStarts")
+                }, 3000);
             }
         }
     });
+
+
 
     socket.on('adminStartedGame', (game) => {
         io.emit('gameStarts');

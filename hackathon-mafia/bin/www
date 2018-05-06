@@ -27,7 +27,7 @@ var io     = require('socket.io')(server);
 /**
  * Socket IO
  */
-
+    
 io.on('connection', (socket) => {
     
     socket.on('playerJoined', (msg) => {

@@ -59,6 +59,10 @@ module.exports = (function() {
         changeName(newName) {
             this.name = newName;
         }
+
+        assignRole(role) {
+            this.role = role;
+        }
     }
 
     return Player;

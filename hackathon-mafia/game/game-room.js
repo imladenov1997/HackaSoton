@@ -22,8 +22,11 @@ module.exports = (function() {
             this.status = 0;
             this.players = {1: admin};
             this.numPlayers = 1;
-            this.votes = {};
-            this.elected = {};
+            this.elections = {
+                votes: {},
+                elected: {},
+                length: 0
+            };
         }
 
         playerJoined(player, playerID) {
@@ -44,7 +47,7 @@ module.exports = (function() {
         getPlayersNames() {
             let allPlayers = {};
         
-            for (var key in this.players) {
+            for (let key in this.players) {
                 if (this.players.hasOwnProperty(key)) {
                     allPlayers[key] = this.players[key].name;
                 }
@@ -53,31 +56,37 @@ module.exports = (function() {
         }
 
         addVote(voter, voted) {
-            this.votes[voter] = voted;
+            this.elections.votes[voter] = voted;
+            this.elections.length++;
         }
 
         countVotes() {
-            for (let key in votes) {
-                if (this.elected[votes[key]] !== undefined) {
-                    this.elected[votes[key]]++;
-                } else {
-                    this.elected[votes[key]] = 1;
+            if (this.alive === this.elections.length) {
+                for (let key in votes) {
+                    if (this.elections.elected[this.elections.votes[key]] !== undefined) {
+                        this.elections.elected[this.elections.votes[key]]++;
+                    } else {
+                        this.elections.elected[this.elections.votes[key]] = 1;
+                    }
                 }
-            }
 
-            let maxVotesId = -1;
+                let maxVotesId = -1;
 
-            for (let keyElected in elected) {
-                if (this.elected[maxVotesId] === undefined || this.elected[keyElected] > this.elected[maxVotesId]) {
-                    maxVotesId = keyElected;
+                for (let keyElected in this.elections.elected) {
+                    if (this.elections.elected[maxVotesId] === undefined || this.elections.elected[keyElected] > this.elections.elected[maxVotesId]) {
+                        maxVotesId = keyElected;
+                    }
                 }
+
+                // reset votes for next round
+                this.elections = {
+                    votes: {},
+                    elected: {},
+                    length: 0
+                };
+
+                return maxVotesId;
             }
-
-            // reset votes for next round
-            this.votes = {};
-            this.elected = {};
-
-            return maxVotesId;
         }
 
         initialize() {
@@ -89,11 +98,12 @@ module.exports = (function() {
                 if(i < specialCharacters.length - 1) {
                     this.players[element].assignRole(specialCharacters[parseInt(element)]);
                 } else if(i%3 == 0) {
-                    this.players[element].assignRole("Warewolf");
+                    this.players[element].assignRole("Werewolf");
                 } else {
                     this.players[element].assignRole("Peasant");
                 }
             });
+            this.alive = playerIDs.length;
         }
 
     }

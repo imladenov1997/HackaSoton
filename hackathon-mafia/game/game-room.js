@@ -85,8 +85,19 @@ module.exports = (function() {
                     length: 0
                 };
 
-                return maxVotesId;
+                if (maxVotesId !== -1) {
+                    kill(maxVotesId);
+                }
+
+                return maxVotesId; // return the killed person (-1 for no one was killed)
             }
+
+            return -2; // not all people have voted
+        }
+
+        kill(id) {
+            this.players[id].setStatus('DEAD');
+            this.alive--;
         }
 
         initialize() {

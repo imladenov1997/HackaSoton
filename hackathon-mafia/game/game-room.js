@@ -65,8 +65,8 @@ module.exports = (function() {
 
         // vote during the day
         addVote(voter, voted) {
+            this.elections.length = this.elections.votes[voter] === undefined ? this.elections.length + 1 : this.elections.length;
             this.elections.votes[voter] = voted;
-            this.elections.length++;
         }
 
         // count votes during the day
@@ -117,13 +117,16 @@ module.exports = (function() {
             return (this.numOfMafia >= this.alive - this.numOfMafia || this.numOfMafia === 0); // returns true if the game has finished
         }
 
+        //TO BE CHANGED
         addMafiaVote(voter, voted) {
             if (this.players[voter].role === 'Werewolf' || this.players[id].role === 'Alpha Wolf') {
+                // this.mafiaElections.length = this.mafiaElections.votes[voter] === undefined ?
                 this.mafiaElections.votes[voter] = voted;
-                this.mafiaElections.length++;
+
             }
         }
 
+        // TO BE CHANGED
         countMafiaVotes() {
             if (this.numOfMafia === this.mafiaElections.length) {
                 for (let key in votes) {

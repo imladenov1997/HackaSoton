@@ -137,8 +137,7 @@ io.on('connection', (socket) => {
             const game = gameRooms[msg.gameID];
             const player = game.players[msg.playerID];
             if (player.status === "ALIVE") {
-                game.addVote(msg.playerID, msg.data.votedPlayerId);
-                io.emit('playerVoted', msg.playerID);
+                game.addMafiaVote(msg.playerID, msg.data.votedPlayerId);
             }
         }
     });

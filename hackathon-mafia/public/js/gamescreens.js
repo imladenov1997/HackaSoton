@@ -20,6 +20,7 @@ function navigateTo(screen) {
     $("#" + screen).removeClass('hidden');
 }
 
+let peasants = [0, 1, 2, 3, 4, 5];
 navigateTo(activeScreen);
 
 $("#ready-button").click(function() {

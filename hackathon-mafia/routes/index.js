@@ -49,18 +49,31 @@ function playerName(gameRequest) {
 }
 
 router.get('/inprogress/:gameID/:playerID', function(req, res, next) {
+  const gameID = req.params.gameID;
+  const playerID = req.params.playerID;
+  const game = currentGameRooms[gameID];
+
   if (isAdmin(req)) {
-    const gameID = req.params.gameID;
-    const game = currentGameRooms[gameID];
     game.initialize();
-    res.render('admin_game_page', { game: req.params.gameID, player: req.params.playerID, name: playerName(req) });
+  }
+
+  let data = { 
+    game: gameID, 
+    player: playerID, 
+    name: playerName(req),
+    role: game.players[playerID].role,
+  };
+
+  console.log(data);
+
+  if (isAdmin(req)) {    
+    res.render('admin_game_page', data);
   } else {
-    res.render('game_page', { game: req.params.gameID, player: req.params.playerID, name: playerName(req) });
+    res.render('game_page', data);
   }
 });
 
 router.get('/join/:gameID/:playerID', function(req, res, next) {
-
     if (isAdmin(req)) {
       res.render('master_lobby', { game: req.params.gameID, player: req.params.playerID, name: playerName(req) });
     } else {

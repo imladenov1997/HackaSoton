@@ -12,8 +12,7 @@ let playersJoined;
 socket.emit('playerJoined', initialData);
 
 socket.on('gameStarts', function(game) {
-    console.log("Prepare! Game starts");
-    changeName('name');
+    window.location.href = new URL("/inprogress/" + gameID + "/" + playerID, base);
 });
 
 socket.on('playerJoined', function(data) {

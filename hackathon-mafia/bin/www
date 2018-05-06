@@ -78,6 +78,10 @@ io.on('connection', (socket) => {
         }
     });
 
+    socket.on('adminStartedGame', (game) => {
+        io.emit('gameStarts');
+    });
+
     socket.on('vote', (msg) => {
         if (msg.page === 'game') {
             const game = gameRooms[msg.gameID];

@@ -115,10 +115,11 @@ io.on('connection', (socket) => {
                 setTimeout(() => {
                     game.status = "TOWN";
                     setTimeout(() => {
-                        //get game otcome 
+                        //get game otcome
+                        console.log('vote finished');
                         const outcome = game.getDayOutcome();
                         io.emit('voteFinished', outcome);
-                        const gameStatus = game.getGamaStatus();
+                        const gameStatus = game.getGameStatus();
                         if(gameStatus.finished) {
                             io.emit('gameFinished', gameStatus);
                         } else {
@@ -126,7 +127,7 @@ io.on('connection', (socket) => {
                         }
                     }, 20000)
                     io.emit("wakeUp", outcomeN);
-                    const gameStatus = game.getGamaStatus();
+                    const gameStatus = game.getGameStatus();
                     if(gameStatus.finished) {
                         io.emit('gameFinished', gameStatus);
                     } else {

@@ -1,9 +1,12 @@
 console.log("is sherif");
 
 socket.on('sheriffTime', function(msg) {
-    navigateTo("main-screen");
-    hideClock();
-    changeStatusMessage("Who's identity are you going to reveal tonight?");
+    if (alive) {
+        hideVotedDisplays();
+        navigateTo("main-screen");
+        hideClock();
+        changeStatusMessage("Who's identity are you going to reveal tonight?");
+    }
 });
 
 socket.on('isMafia', function(msg) {

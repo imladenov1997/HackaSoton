@@ -179,7 +179,7 @@ module.exports = (function() {
                 }
                 i += 1;
             });
-            this.alive = playerIDs.length;
+            this.alive = playersIDs.length;
 
         }
 

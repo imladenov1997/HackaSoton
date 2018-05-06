@@ -4,9 +4,11 @@
  * Module dependencies.
  */
 
-var app = require('../app');
-var debug = require('debug')('hackathon-mafia:server');
-var http = require('http');
+const appModule = require('../app');
+const app = appModule.expressApp;
+const gameRooms = appModule.gameRooms;
+const debug = require('debug')('hackathon-mafia:server');
+const http = require('http');
 
 /**
  * Get port from environment and store in Express.
@@ -26,10 +28,73 @@ var io     = require('socket.io')(server);
  * Socket IO
  */
 
-io.on('connection', function(socket) {
-    socket.on('nameChange', function(msg) {
-        console.log('username has been changed: ' + msg['name']);
-        io.emit('gameStarts', msg);
+io.on('connection', (socket) => {
+    
+    socket.on('playerJoined', (msg) => {
+        const game = gameRooms[msg.gameID];
+        const gamePlayers = game.getPlayersNames();
+
+        socket.emit('getAllPlayers', gamePlayers);
+        const playerInfo = {
+            playerID : msg.playerID,
+            playerName : game.players[msg.playerID].name
+        };
+        io.emit('playerJoined', playerInfo);
+    });
+
+    socket.on('nameChange', (msg) => {
+        if (msg.page === 'lobby') {
+            const game = gameRooms[msg.gameID];
+            const player = game.players[msg.playerID];
+            player.name = msg.data.name;
+            console.log('username has been changed: ' + msg.data.name);
+            io.emit('playerChangedName', { playerID: msg.playerID, newName: msg.data.name });
+        }
+    });
+
+    socket.on('playerReady', (msg) => {
+        if (msg.page === 'lobby') {
+            const allReady = false;
+            if (allReady) {
+                io.emit('allReady');
+            }
+        }
+    });
+
+    socket.on('vote', (msg) => {
+        if (msg.page === 'game') {
+            io.emit('playerVoted');
+        }
+    });
+
+    socket.on('sheriffVote', (msg) => {
+        if (msg.page === 'game') {
+
+        }
+    });
+
+    socket.on('doctorVote', (msg) => {
+        if (msg.page === 'game') {
+
+        }
+    });
+
+    socket.on('mafiaVote', (msg) => {
+        if (msg.page === 'game') {
+
+        }
+    });
+
+    socket.on('removeRoleScreen', (msg) => {
+        if (msg.page === 'game') {
+
+        }
+    });
+
+    socket.on('playerAsleep', (msg) => {
+        if (msg.page === 'game') {
+
+        }
     });
 });
 

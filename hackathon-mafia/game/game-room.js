@@ -15,13 +15,37 @@ module.exports = (function() {
             this.admin = admin;
             this.code =  code;
             this.status = 0;
-            this.players = {};
+            this.players = {1: admin};
+            this.numPlayers = 1;
         }
 
-        playerJoined(player) {
+        playerJoined(player, playerID) {
             this.players[playerID] = player;
+            this.numPlayers++;
         }
-    }
 
+        //Each player gets the next possible ID
+        getNextPlayerID() {
+            this.numPlayers++;
+            return this.numPlayers;
+        }
+
+        getGameCode() {
+            return this.code;
+        }
+
+        //Returns an object with players associated with their ids
+        getPlayersNames() {
+            let allPlayers = {};
+        
+            for (var key in this.players) {
+                if (this.players.hasOwnProperty(key)) {
+                    allPlayers[key] = this.players[key].name
+                }
+            }
+            return allPlayers;
+        }
+
+    }
     return GameRoom;
 }());

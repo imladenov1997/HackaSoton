@@ -9,22 +9,17 @@
     <link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/stylesheets/half-slider.css">
     <link rel="stylesheet" type="text/css" href="/stylesheets/mystyles.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/flipclock.css">
 </head>
 <body>
-    <script>
-        var socket = io();
-        socket.emit('nameChange', {});
-        socket.on('gameStarts', function(game) {
-            console.log("Prepare! Game starts");
-        });
-    </script>
-
+    <script type="text/javascript" src="/js/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="/js/flipclock/flipclock.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/url-js"></script>
+    
     {{{body}}}
 
-    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
-    <script type="text/javascript" src="js/jquery/jquery.min.js"></script>
-    <script type="text/javascript" src="js/bootstrap/bootstrap.min.js"></script>
-    <script type="text/javascript" src="js/socket-client/socket-client.js"></script>
-    <script type="text/javascript" src="js/indexpage.js"></script>
+    <script type="text/javascript" src="/js/indexpage.js"></script>
 </body>
 </html>

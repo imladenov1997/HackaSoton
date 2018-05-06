@@ -71,7 +71,7 @@ module.exports = (function() {
             const playersList = [];
             let i = 0;
             for (let player in this.players) {
-                if (players.hasOwnProperty(player)) {
+                if (this.players.hasOwnProperty(player)) {
                     playersList[i] = {
                         playerID: this.players[player].id,
                         playerName: this.players[player].name

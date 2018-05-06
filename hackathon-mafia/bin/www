@@ -53,7 +53,7 @@ io.on('connection', (socket) => {
     });
 
     socket.on('playerReady', (msg) => {
-        if (msg.page === 'lobby') {
+        if (msg.page === 'game') {
             const allReady = false;
             if (allReady) {
                 io.emit('allReady');

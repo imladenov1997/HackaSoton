@@ -1,0 +1,1 @@
+socket.emit("adminStartedGame", {game: gameId});

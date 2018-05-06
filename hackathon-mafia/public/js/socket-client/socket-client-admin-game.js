@@ -22,7 +22,26 @@ socket.on('doctorTime', (msg) => {
 });
 
 socket.on('mafiaTime', (msg) => {
-    let sound = new Audio('/music/warewolvesWakeUp.mp3');
+    let sound = new Audio('/music/werewolvesWakeUp.mp3');
     sound.play();
 });
 
+socket.on('killed', (msg) => {
+    let sound = new Audio('/music/morningNobodyWasKilled.mp3');
+    sound.play();
+});
+
+socket.on('noOneKilled', (msg) => {
+    let sound = new Audio('/music/morningSomeoneWasKilled.mp3');
+    sound.play();
+});
+
+socket.on('peasantsWin', (msg) => {
+    let sound = new Audio('/music/endGameVillagersWin.mp3');
+    sound.play();
+});
+
+socket.on('mafiaWin', (msg) => {
+    let sound = new Audio('/music/endGameWerewolvesWin.mp3');
+    sound.play();
+});

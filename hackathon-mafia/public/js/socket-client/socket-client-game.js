@@ -50,7 +50,7 @@ function setReady() {
         playerID: playerID,
         page: "game",
         data: {
-            ready: true
+            ready: 'READY'
         }
     };
     socket.emit('playerReady', readyPlayerOne);

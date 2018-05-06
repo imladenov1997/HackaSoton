@@ -5,7 +5,12 @@ module.exports = (function() {
         0 : "Not initiated",
         1 : "Lobby",
         2 : "ConfirmedPlayers"
-    }
+    };
+
+    const specialCharacters = [
+        "Doctor",
+        "Seer"
+    ]
 
     class GameRoom {
         /**
@@ -28,7 +33,6 @@ module.exports = (function() {
 
         //Each player gets the next possible ID
         getNextPlayerID() {
-            this.numPlayers++;
             return this.numPlayers;
         }
 
@@ -42,7 +46,7 @@ module.exports = (function() {
         
             for (var key in this.players) {
                 if (this.players.hasOwnProperty(key)) {
-                    allPlayers[key] = this.players[key].name
+                    allPlayers[key] = this.players[key].name;
                 }
             }
             return allPlayers;
@@ -76,9 +80,21 @@ module.exports = (function() {
             return maxVotesId;
         }
 
-
-
-
+        initialize() {
+            //Assigning of roles
+            let playersIDs = this.players.keys();
+            playersIDs.sort(function(a, b){return 0.5 - Math.random()});
+            let i = 0;
+            playersIDs.forEach(element => {
+                if(i < specialCharacters.length - 1) {
+                    this.players[element].assignRole(specialCharacters[parseInt(element)]);
+                } else if(i%3 == 0) {
+                    this.players[element].assignRole("Warewolf");
+                } else {
+                    this.players[element].assignRole("Peasant");
+                }
+            });
+        }
 
     }
     return GameRoom;

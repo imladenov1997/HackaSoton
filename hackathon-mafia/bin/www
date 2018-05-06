@@ -59,6 +59,7 @@ io.on('connection', (socket) => {
             const player = game.players[msg.playerID];
             player.setStatus(msg.data.ready);
             console.log(game);
+            io.emit('playerReady', msg);
 
             // Check if everyone is ready
             for (let player in game.players) {
@@ -69,6 +70,9 @@ io.on('connection', (socket) => {
             }
 
             if (allReady) {
+                for (let key in game.players) {
+                    game.players[key].setStatus('ALIVE');
+                }
                 io.emit('allReady');
             }
         }

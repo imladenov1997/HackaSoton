@@ -97,13 +97,39 @@ io.on('connection', (socket) => {
 
     socket.on('sheriffVote', (msg) => {
         if (msg.page === 'game') {
+            const game = gameRooms[msg.gameID];
+            const player = game.players[msg.playerID];
+            const checkedPlayer = game.players[msg.data.checkedPlayer];
 
+
+            const message = {
+                gameID: msg.gameID,
+                playerID: msg.playerID,
+                data: {
+                    id: msg.data.checkedPlayer,
+                    isMafia: (player.role === 4)
+                }
+            };
+
+            socket.emit('isMafia', message);
         }
     });
 
     socket.on('doctorVote', (msg) => {
         if (msg.page === 'game') {
+            const game = gameRooms[msg.gameID];
+            const player = game.players[msg.playerID];
+            const checkedPlayer = game.players[msg.data.checkedPlayer];
 
+
+            const message = {
+                gameID: msg.gameID,
+                playerID: msg.playerID,
+                data: {
+                    id: msg.data.checkedPlayer,
+                    isMafia: (player.role === 4)
+                }
+            };
         }
     });
 

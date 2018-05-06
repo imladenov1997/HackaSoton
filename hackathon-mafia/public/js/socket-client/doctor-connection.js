@@ -1,5 +1,5 @@
 socket.on('doctorTime', function(msg) {
-
+    navigateTo('main-screen');
 });
 
 function doctorVote(id) {

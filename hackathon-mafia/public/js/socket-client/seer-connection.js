@@ -1,5 +1,5 @@
 socket.on('sheriffTime', function(msg) {
-
+    navigateTo("main-screen");
 });
 
 socket.on('isMafia', function(msg) {

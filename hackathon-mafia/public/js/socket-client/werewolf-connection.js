@@ -1,5 +1,5 @@
 socket.on('mafiaTime', function(msg) {
-
+    navigateTo("main-screen");
 });
 
 function mafiaVote(id) {

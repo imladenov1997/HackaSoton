@@ -39,6 +39,14 @@ socket.on('fallAsleep', function(msg) {
     console.log('fallen asleep');
 });
 
+socket.on('peasantsWin', (msg) => {
+    // Timmy, please implement some kind of a pop-up that result in showing that peasants win :)
+});
+
+socket.on('mafiaWin', (msg) => {
+    // Timmy, please implement some kind of a pop-up that result in showing that peasants win :)
+});
+
 function setReady() {
     const readyPlayerOne = {
         gameID: gameID,

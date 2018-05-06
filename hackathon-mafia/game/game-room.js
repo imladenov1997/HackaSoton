@@ -89,47 +89,54 @@ module.exports = (function() {
             return {playerKilled: this.playerKilledByMafia};
         }
 
-        getNightOutcome() {
-            return "";
+        getDayOutcome() {
+            const deadPlayer = this.countVotes();
+            if(deadPlayer === -1 ) {
+                return {
+                    playerID: -1,
+                    playerName: ""
+                };
+            } else {
+                return {
+                    playerID: deadPlayer,
+                    playerName: this.players[deadPlayer].name
+                }
+            }
         }
 
         // count votes during the day
         countVotes() {
-            if (this.alive === this.elections.length) {
-                for (let key in votes) {
-                    if (this.elections.elected[this.elections.votes[key]] !== undefined) {
-                        this.elections.elected[this.elections.votes[key]]++;
-                    } else {
-                        this.elections.elected[this.elections.votes[key]] = 1;
-                    }
+            for (let key in votes) {
+                if (this.elections.elected[this.elections.votes[key]] !== undefined) {
+                    this.elections.elected[this.elections.votes[key]]++;
+                } else {
+                    this.elections.elected[this.elections.votes[key]] = 1;
                 }
-
-                let maxVotesId = -1;
-
-                for (let keyElected in this.elections.elected) {
-                    if (this.elections.elected[maxVotesId] === undefined || this.elections.elected[keyElected] > this.elections.elected[maxVotesId]) {
-                        maxVotesId = keyElected;
-                    }
-                }
-
-                // reset votes for next round
-                this.elections = {
-                    votes: {},
-                    elected: {},
-                    length: 0
-                };
-
-                if (maxVotesId !== -1) {
-                    let result = this.kill(maxVotesId);
-                    if (result !== 0) {
-                        this.gameOver = result;
-                    }
-                }
-
-                return maxVotesId; // return the killed person (-1 for no one was killed)
             }
 
-            return -2; // not all people have voted
+            let maxVotesId = -1;
+
+            for (let keyElected in this.elections.elected) {
+                if (this.elections.elected[maxVotesId] === undefined || this.elections.elected[keyElected] > this.elections.elected[maxVotesId]) {
+                    maxVotesId = keyElected;
+                }
+            }
+
+            // reset votes for next round
+            this.elections = {
+                votes: {},
+                elected: {},
+                length: 0
+            };
+
+            if (maxVotesId !== -1) {
+                let result = this.kill(maxVotesId);
+                if (result !== 0) {
+                    this.gameOver = result;
+                }
+            }
+
+            return maxVotesId; // return the killed person (-1 for no one was killed)
         }
 
         // kill someone during the day

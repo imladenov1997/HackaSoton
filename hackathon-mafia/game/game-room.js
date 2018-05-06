@@ -120,7 +120,10 @@ module.exports = (function() {
                 };
 
                 if (maxVotesId !== -1) {
-                    this.kill(maxVotesId);
+                    let result = this.kill(maxVotesId);
+                    if (result !== 0) {
+                        this.gameOver = result;
+                    }
                 }
 
                 return maxVotesId; // return the killed person (-1 for no one was killed)
@@ -138,7 +141,13 @@ module.exports = (function() {
                 this.numOfMafia--;
             }
 
-            return (this.numOfMafia >= this.alive - this.numOfMafia || this.numOfMafia === 0); // returns true if the game has finished
+            if (this.numOfMafia === 0) {
+                return 1; // peasants win
+            } else if (this.numOfMafia >= this.alive - this.numOfMafia) {
+                return -1; // mafia wins
+            } else {
+                return 0; // no one wins
+            }
         }
 
         

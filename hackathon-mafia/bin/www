@@ -90,7 +90,37 @@ io.on('connection', (socket) => {
             const player = game.players[msg.playerID]
             if(player.status === "ALIVE") {
                 game.addVote(msg.playerID, msg.data.votedPlayerId);
-                io.emit('playerVoted', msg.playerID);
+                msg.playerName = player.name;
+                io.emit('playerVoted', msg);
+                let result = game.countVotes(); // -1 - no one killed, -2 - still waiting, >0 - someone was killed
+
+
+
+                if (result > 0) {
+
+                    const msgKilled = {
+                        gameID: msg.gameID,
+                        playerID: result,
+                        playerName: game.players[result].name
+                    };
+
+                    io.emit('killed', msgKilled);
+
+                    if (this.gameOver === 1) {
+                        io.emit('peasantsWin');
+                    } else if (this.gameOver === -1) {
+                        io.emit('mafiaWin');
+                    }
+
+                } else if (result === -1) {
+                    const msgNoOneKilled = {
+                        gameID: msg.gameID,
+                        playerID: -1,
+                        playerName: 'N/A'
+                    };
+
+                    io.emit('noOneKilled', msgNoOneKilled);
+                }
             }
         }
     });

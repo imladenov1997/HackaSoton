@@ -2,6 +2,7 @@ const socket = io();
 
 socket.on('allReady', function(msg) {
     navigateTo("sleep-screen");
+    console.log('falling asleep');
 });
 
 socket.on('removeRoleScreen', function(msg) {
@@ -35,6 +36,7 @@ socket.on('playerVoted', function(msg) {
 
 socket.on('fallAsleep', function(msg) {
     navigateTo("sleep-screen");
+    console.log('fallen asleep');
 });
 
 function setReady() {

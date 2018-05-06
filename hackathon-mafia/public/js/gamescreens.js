@@ -13,7 +13,7 @@ function hideAllScreens() {
 
 hideAllScreens();
 
-const activeScreen = 'main-screen';
+const activeScreen = 'ready-screen';
 
 function navigateTo(screen) {
     hideAllScreens();
@@ -26,5 +26,5 @@ $("#ready-button").click(function() {
     setReady();
     $("#ready-button")
         .removeClass("btn-outline-secondary")
-        .addClass("btn-success-secondary");
+        .addClass("btn-success");
 });

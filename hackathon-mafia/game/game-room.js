@@ -1,13 +1,6 @@
 module.exports = (function() {
     "use strict";
 
-    const gameStatus = {
-        0 : "Not initiated",
-        1 : "Lobby",
-        2 : "ConfirmedPlayers",
-        
-    };
-
 
     const specialCharacters = [
         "doctor",
@@ -21,7 +14,7 @@ module.exports = (function() {
         constructor(admin, code) {
             this.admin = admin;
             this.code =  code;
-            this.status = 0;
+            this.status = "INIT";
             this.players = {1: admin};
             this.numPlayers = 2;
             this.votes = {};
@@ -94,6 +87,10 @@ module.exports = (function() {
                 this.playerKilledByMafia = 0;
             }
             return {playerKilled: this.playerKilledByMafia};
+        }
+
+        getNightOutcome() {
+            return "";
         }
 
         // count votes during the day

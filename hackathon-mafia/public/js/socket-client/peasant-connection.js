@@ -1,4 +1,5 @@
 const socket = io();
+let alive = true;
 
 socket.on('allReady', function(msg) {
     navigateTo("sleep-screen");
@@ -17,11 +18,16 @@ socket.on('killed', function(data) {
 });
 
 socket.on('wakeUp', function(msg) {
-    if (playerID === msg) {
-        // sorry, man, you were killed
-    } else {
-        navigateTo("main-screen");
-        changeStatusMessage(msg.playerName + " was killed tonight.");
+    if (alive) {
+        if (playerID === msg.playerKilledByMafia) {
+            navigateTo("death-screen");
+        } else {
+            showVotedDisplays();
+            showClock();
+            navigateTo("main-screen");
+            setFlipClockTime(30);
+            changeStatusMessage(msg.playerName + " was killed tonight.");
+        }
     }
 });
 
@@ -34,12 +40,16 @@ socket.on('voteTime', function(msg) {
 });
 
 socket.on('playerVoted', function(msg) {
-
+    if (alive) {
+        $(msg.voteById + "-voted-message").text("Voted for " + msg.voteForName);
+    }
 });
 
 socket.on('fallAsleep', function(msg) {
-    navigateTo("sleep-screen");
-    console.log('fallen asleep');
+    if (alive) {
+        navigateTo("sleep-screen");
+        console.log('fallen asleep');
+    }
 });
 
 socket.on('peasantsWin', (msg) => {

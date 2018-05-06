@@ -1,8 +1,12 @@
 console.log("is werefold");
 
 socket.on('mafiaTime', function(msg) {
-    navigateTo("main-screen");
-    changeStatusMessage("Who are the werewolfs going to ravage to death tonight?");
+    if (alive) {
+        hideVotedDisplays();
+        hideClock();
+        navigateTo("main-screen");
+        changeStatusMessage("Who are the werewolfs going to ravage to death tonight?");
+    }
 });
 
 socket.on('doctorTime', function(msg) {

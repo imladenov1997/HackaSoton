@@ -1,3 +1,5 @@
+console.log("is werefold");
+
 socket.on('mafiaTime', function(msg) {
     navigateTo("main-screen");
 });

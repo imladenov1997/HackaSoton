@@ -12,6 +12,11 @@ socket.on('allAsleep', function(msg) {
 
 });
 
+socket.on('voteFinished', function(data) {
+    if (data.playerID !== -1) {
+        changeStatusMessage(data.playerName + " was lynched by the town.");
+    }
+});
 
 socket.on('wakeUp', function(msg) {
     if (msg === -1) {

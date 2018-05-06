@@ -1,3 +1,5 @@
+console.log("is doctor");
+
 socket.on('doctorTime', function(msg) {
     navigateTo('main-screen');
 });

@@ -1,9 +1,10 @@
 <section class="py-5 px-3">
-    <h2 id="current-event text-center">Town Gathering</h2>
+    <h2 id="current-event text-center">A Town Gathering</h2>
+    <h4 id="status-message-h"> Discuss who you want to lynch! </h4>
     <div id="players-display">
       <div class="list-group mt-2">
         {{#each playersData}}            
-          <a id="{{ playerID }}" href="#" onclick="setActive(this)" style="color:black" class="list-group-item villagePeople">{{ name }}</a>
+          <a id="{{ playerID }}" href="#" onclick="setActive(this)" style="color:black" class="list-group-item villagePeople vote-control">{{ playerName }}<i><span id="{{ playerID }}-voted-message" class="px-2">(hasn't voted)</span></i></a>
         {{/each}}
       </div>
     </div>

@@ -1,4 +1,5 @@
 <script type="text/javascript">
-    let playerRole = "{{ role }}";
-    let playersInGame = {{}};
+    let playerRole = "{{ role.scriptName }}";
 </script>
+
+<script type="text/javascript" src="/js/socket-client/{{role.scriptName}}-connection.js"></script>

@@ -53,6 +53,6 @@ function changeName(name) {
             name: name
         }
     }
-    console.log(playerName)
+    console.log(playerName);
     socket.emit('nameChange', playerName);
 }

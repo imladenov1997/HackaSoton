@@ -1,3 +1,5 @@
+console.log("is sherif");
+
 socket.on('sheriffTime', function(msg) {
     navigateTo("main-screen");
 });

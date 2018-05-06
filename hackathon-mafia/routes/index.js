@@ -66,8 +66,6 @@ router.get('/inprogress/:gameID/:playerID', function(req, res, next) {
     playersData: game.getPlayersList(),
   };
 
-  console.log(data);
-
   if (isAdmin(req)) {    
     res.render('admin_game_page', data);
   } else {

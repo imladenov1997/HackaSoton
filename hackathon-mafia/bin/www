@@ -58,12 +58,10 @@ io.on('connection', (socket) => {
             const game = gameRooms[msg.gameID];
             const player = game.players[msg.playerID];
             player.setStatus(msg.data.ready);
-            console.log(game);
             io.emit('playerReady', msg);
 
             // Check if everyone is ready
             for (let player in game.players) {
-                console.log(player);
                 if (game.players[player].status === 'NOT_READY') {
                     allReady = false; // not everyone is ready
                 }
@@ -74,9 +72,6 @@ io.on('connection', (socket) => {
                     game.players[key].setStatus('ALIVE');
                 }
                 io.emit('allReady');
-                setTimeout(() => {
-                    io.emit("fallAsleep");
-                }, 3000);
             }
         }
     });

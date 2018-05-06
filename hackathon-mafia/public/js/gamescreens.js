@@ -1,4 +1,4 @@
-$(".game-clock").FlipClock(3000, {
+$(".game-clock").FlipClock(20, {
     countdown: true,
     clockFace: 'MinuteCounter',
 });
@@ -16,6 +16,7 @@ hideAllScreens();
 const activeScreen = 'ready-screen';
 
 function navigateTo(screen) {
+    resetSleepScreen();
     hideAllScreens();
     $("#" + screen).removeClass('hidden');
 }
@@ -32,10 +33,12 @@ $("#ready-button").click(function() {
 
 
 $("#sleep-touch-area").click(function() {
-    $("#open-eye-svg").addClass("hidden");
-    $("#closed-eye-svg").removeClass("hidden");
-    $("#sleep-info").text("You should be asleep.");
-    fallAsleep();
+    if(!$("#sleep-screen").hasClass("hidden")) {
+        $("#open-eye-svg").addClass("hidden");
+        $("#closed-eye-svg").removeClass("hidden");
+        $("#sleep-info").text("You should be asleep.");
+        fallAsleep();
+    }
 });
 
 function resetSleepScreen() {
@@ -67,4 +70,15 @@ function deselectAll() {
         els[i].style.backgroundColor="white";
         els[i].classList.remove('active')
     }
+}
+
+$(".vote-control").each(function () {
+    let id = $(this).attr('id');
+    $(this).click(() => {
+        vote(id);
+    });
+});
+
+function changeStatusMessage(message) {
+    $('status-message-h').text(message);
 }

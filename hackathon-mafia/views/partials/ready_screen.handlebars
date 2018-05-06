@@ -4,11 +4,9 @@
     
 
   <div id="peasantsIcons" class="text-center">
-              <img id="1" src="/images/peasant.jpg" alt="Peasant" width="70" height="70">
-              <img id="2" src="/images/peasant.jpg" alt="Peasant" width="100" height="100">
-              <img id="3" src="/images/peasant.jpg" alt="Peasant" width="100" height="100">
-              <img id="4" src="/images/peasant.jpg" alt="Peasant" width="100" height="100">
-              <img id="5" src="/images/peasant.jpg" alt="Peasant" width="100" height="100">
+    {{#each peasants}}
+        <img src="/images/peasant.jpg" alt="Peasant" width="70" height="70">
+    {{/each}}
   </div>
 </div>
 

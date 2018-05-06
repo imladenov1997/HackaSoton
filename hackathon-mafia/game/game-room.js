@@ -4,7 +4,8 @@ module.exports = (function() {
     const gameStatus = {
         0 : "Not initiated",
         1 : "Lobby",
-        2 : "ConfirmedPlayers"
+        2 : "ConfirmedPlayers",
+        
     };
 
 

@@ -74,9 +74,6 @@ io.on('connection', (socket) => {
                     game.players[key].setStatus('ALIVE');
                 }
                 io.emit('allReady');
-                setTimeout(() => {
-                    io.emit("fallAsleep");
-                }, 3000);
             }
         }
     });
@@ -95,6 +92,13 @@ io.on('connection', (socket) => {
                 game.addVote(msg.playerID, msg.data.votedPlayerId);
                 io.emit('playerVoted', msg.playerID);
             }
+        }
+    });
+
+    socket.on('vote', (msg) => {
+        if (msg.page === 'game') {
+            const game = gameRooms[msg.gameID];
+
         }
     });
 
@@ -126,7 +130,7 @@ io.on('connection', (socket) => {
             game.playerHealed = player.id;
 
             setTimeout(() => {
-                io.emit("sheriffVote")
+                io.emit("sheriffTime")
             }, 5000);
         }
     });
@@ -134,7 +138,7 @@ io.on('connection', (socket) => {
     //When the werewolfs press the kill button
     socket.on('mafiaKills', (msg) => {
         setTimeout(() => {
-            io.emit("doctorVote");
+            io.emit("doctorTime");
         }, 5000)
     });
 
@@ -157,7 +161,7 @@ io.on('connection', (socket) => {
             game.playersAsleep += 1;
             
             if(game.allPlayersAsleep()) {
-                io.emit("mafiaVote");
+                io.emit("mafiaTime");
             } 
         }
     });

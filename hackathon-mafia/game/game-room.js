@@ -21,7 +21,7 @@ module.exports = (function() {
             this.code =  code;
             this.status = 0;
             this.players = {1: admin};
-            this.numPlayers = 1;
+            this.numPlayers = 2;
             this.votes = {};
             this.elected = {};
         }
@@ -82,17 +82,18 @@ module.exports = (function() {
 
         initialize() {
             //Assigning of roles
-            let playersIDs = this.players.keys();
+            let playersIDs = Object.keys(this.players);
             playersIDs.sort(function(a, b){return 0.5 - Math.random()});
             let i = 0;
             playersIDs.forEach(element => {
-                if(i < specialCharacters.length - 1) {
-                    this.players[element].assignRole(specialCharacters[parseInt(element)]);
+                if(i < specialCharacters.length) {
+                    this.players[element].assignRole(specialCharacters[i]);
                 } else if(i%3 == 0) {
                     this.players[element].assignRole("Warewolf");
                 } else {
                     this.players[element].assignRole("Peasant");
                 }
+                i += 1;
             });
         }
 

@@ -47,25 +47,29 @@ module.exports = (function() {
             id: 0,
             displayName: "Werewolf",
             scriptName: "werewolf",
-            description: "Kills during the night"
+            description: "Kills during the night",
+            notPeasant: true,
         },
         doctor: {
             id: 1,
             displayName: "Doctor",
             scriptName: "doctor",
-            description: "The good guy who heals people"
+            description: "The good guy who heals people",
+            notPeasant: true,
         },
         seer: {
             id: 2,
             displayName: "Seer",
             scriptName: "seer",
-            description: "Can check if a player is a werewolf"
+            description: "Can check if a player is a werewolf",
+            notPeasant: true,
         },
         peasant: {
             id: 3,
             displayName: "Peasant",
             scriptName: "peasant",
-            description: "Just a peasant"
+            description: "Just a peasant",
+            notPeasant: false,
         }
     }
 

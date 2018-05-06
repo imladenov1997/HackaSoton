@@ -16,7 +16,7 @@ module.exports = (function() {
             this.code =  code;
             this.status = "INIT";
             this.players = {1: admin};
-            this.numPlayers = 2;
+            this.numPlayers = 1;
             this.votes = {};
             this.elected = {};
             this.elections = {
@@ -83,10 +83,16 @@ module.exports = (function() {
         }
 
         getNightOutcome() {
+            let name = "No one";
             if(this.playerHealed === this.playerKilledByMafia) {
                 this.playerKilledByMafia = 0;
+            } else {
+                name = this.players[this.playerKilledByMafia].name;
             }
-            return {playerKilled: this.playerKilledByMafia};
+            return {
+                playerKilled: this.playerKilledByMafia, 
+                playerName: name
+            };
         }
 
         getDayOutcome() {
@@ -106,7 +112,7 @@ module.exports = (function() {
 
         // count votes during the day
         countVotes() {
-            for (let key in votes) {
+            for (let key in this.elections.votes) {
                 if (this.elections.elected[this.elections.votes[key]] !== undefined) {
                     this.elections.elected[this.elections.votes[key]]++;
                 } else {
@@ -175,7 +181,7 @@ module.exports = (function() {
                 }
                 i += 1;
             });
-            this.alive = this.numPlayers - 1;
+            this.alive = this.numPlayers;
         }
 
     }

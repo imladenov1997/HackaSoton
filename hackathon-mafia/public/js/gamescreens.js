@@ -53,7 +53,7 @@ function setActive(selectedOption) {
     deselectAll();
     selectedOption.classList.add('active');
     selectedOption.style.backgroundColor="grey";
-    selectedOption.style.borderColor("black");
+    // selectedOption.style.borderColor("black");
 }
 
 $("villagePeople").each(() => {
@@ -82,5 +82,6 @@ $(".vote-control").each(function () {
 });
 
 function changeStatusMessage(message) {
-    $('status-message-h').text(message);
+    console.log('changed message to ' + message);
+    $('#status-message-h').text(message);
 }

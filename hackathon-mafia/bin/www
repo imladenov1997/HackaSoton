@@ -105,7 +105,7 @@ io.on('connection', (socket) => {
                 playerID: msg.playerID,
                 data: {
                     id: msg.data.checkedPlayer,
-                    isMafia: (player.role === 4)
+                    isMafia: (player.role === 'Werewolf')
                 }
             };
 

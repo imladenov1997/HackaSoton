@@ -88,60 +88,91 @@ io.on('connection', (socket) => {
             const player = game.players[msg.playerID]
             if(player.status === "ALIVE") {
                 game.addVote(msg.playerID, msg.data.votedPlayerId);
-                io.emit('playerVoted', msg.playerID);
-            }
-        }
-    });
+                msg.playerName = player.name;
+                io.emit('playerVoted', msg);
+                let result = game.countVotes(); // -1 - no one killed, -2 - still waiting, >0 - someone was killed
 
-    socket.on('sheriffVote', (msg) => {
-        if (msg.page === 'game') {
-            const game = gameRooms[msg.gameID];
-            const checkedPlayer = game.players[msg.data.checkedPlayer];
 
-            const message = {
-                gameID: msg.gameID,
-                playerID: msg.playerID,
-                data: {
-                    isMafia: (player.role.id === 0)
+
+                if (result > 0) {
+
+                    const msgKilled = {
+                        gameID: msg.gameID,
+                        playerID: result,
+                        playerName: game.players[result].name
+                    };
+
+                    io.emit('killed', msgKilled);
+
+                    if (this.gameOver === 1) {
+                        io.emit('peasantsWin');
+                    } else if (this.gameOver === -1) {
+                        io.emit('mafiaWin');
+                    }
+
+                } else if (result === -1) {
+                    const msgNoOneKilled = {
+                        gameID: msg.gameID,
+                        playerID: -1,
+                        playerName: 'N/A'
+                    };
+
+                    io.emit('noOneKilled', msgNoOneKilled);
                 }
-            };
-
-            socket.emit('isMafia', message); //Only in sheriff script
-            const msg = game.getNightOutcome();
-            setTimeout(() => {
-                io.emit("wakeUp", msg)
-            }, 5000);
-        }
-    });
-
-    socket.on('doctorVote', (msg) => {
-        if (msg.page === 'game') {
-            const game = gameRooms[msg.gameID];
-            const player = game.players[msg.data.curedPlayer];
-            game.playerHealed = player.id;
-
-            setTimeout(() => {
-                io.emit("sheriffVote")
-            }, 5000);
-        }
-    });
-
-    //When the werewolfs press the kill button
-    socket.on('mafiaKills', (msg) => {
-        setTimeout(() => {
-            io.emit("doctorVote");
-        }, 5000)
-    });
-
-    //When mafia selects a player to kill
-    socket.on('mafiaVote', (msg) => {
-        if (msg.page === 'game') {
-            const game = gameRooms[msg.gameID];
-            game.playerKilledByMafia = msg.data.playerToKill;
-            const msg = {
-                playerToKill: msg.data.playerToKill
             }
-            io.emit("voteChange", msg); //Only in mafia script
+        }
+    });
+
+    socket.on('vote', (msg) => {
+        if (msg.page === 'game') {
+            const game = gameRooms[msg.gameID];
+            switch(game.status) {
+                case "MAFIA":
+                    game.playerKilledByMafia = msg.data.playerToKill;
+                    setTimeout(() => {
+                        game.status = "DOCTOR";
+                        io.emit("doctorTime");
+                    }, 5000)
+                    break;
+                case "DOCTOR":
+                    game.playerHealed = msg.data.curedPlayer;
+                    setTimeout(() => {
+                        game.status = "SHERIFF";
+                        io.emit("sheriffTime");
+                    }, 5000);
+                    break;
+                case "SHERIFF":
+                    const checkedPlayer = game.players[msg.data.checkedPlayer];
+
+                    const message = {
+                        gameID: msg.gameID,
+                        playerID: msg.playerID,
+                        data: {
+                            isMafia: (checkedPlayer.role.id === 0)
+                        }
+                    };
+        
+                    socket.emit('isMafia', message); //Only in sheriff script
+                    const msg = game.getNightOutcome();
+                    setTimeout(() => {
+                        game.status = "TOWN";
+                        setTimeout(() => {
+                            //get game otcome 
+                            const outcome = game.getDayOutcome();
+                            io.emit('voteFinished', outcome);
+                        }, 20000)
+                        io.emit("wakeUp", msg)
+                    }, 5000);
+                    break;
+                case "TOWN":
+                    const player = game.players[msg.playerID]
+                    if(player.status === "ALIVE") {
+                        game.addVote(msg.playerID, msg.data.votedPlayerId);
+                        io.emit('playerVoted', msg.playerID);
+                    }
+                    break;
+            }
+
         }
     });
 
@@ -152,7 +183,8 @@ io.on('connection', (socket) => {
             game.playersAsleep += 1;
             
             if(game.allPlayersAsleep()) {
-                io.emit("mafiaVote");
+                game.status = "MAFIA";
+                io.emit("mafiaTime");
             } 
         }
     });

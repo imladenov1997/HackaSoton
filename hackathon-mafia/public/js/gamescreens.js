@@ -53,6 +53,7 @@ function setActive(selectedOption) {
     deselectAll();
     selectedOption.classList.add('active');
     selectedOption.style.backgroundColor="grey";
+    selectedOption.style.borderColor("black");
 }
 
 $("villagePeople").each(() => {
@@ -68,7 +69,8 @@ function deselectAll() {
     // Loop over Elements to remove active class;
     for (var i = 0; i < els.length; i++) {
         els[i].style.backgroundColor="white";
-        els[i].classList.remove('active')
+        els[i].classList.remove("active");
+        els[i].style.borderColor("white");
     }
 }
 

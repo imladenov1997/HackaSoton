@@ -1,12 +1,6 @@
 module.exports = (function() {
     "use strict";
 
-    const gameStatus = {
-        0 : "Not initiated",
-        1 : "Lobby",
-        2 : "ConfirmedPlayers"
-    };
-
 
     const specialCharacters = [
         "doctor",
@@ -20,7 +14,7 @@ module.exports = (function() {
         constructor(admin, code) {
             this.admin = admin;
             this.code =  code;
-            this.status = 0;
+            this.status = "INIT";
             this.players = {1: admin};
             this.numPlayers = 2;
             this.votes = {};
@@ -95,40 +89,54 @@ module.exports = (function() {
             return {playerKilled: this.playerKilledByMafia};
         }
 
+        getDayOutcome() {
+            const deadPlayer = this.countVotes();
+            if(deadPlayer === -1 ) {
+                return {
+                    playerID: -1,
+                    playerName: ""
+                };
+            } else {
+                return {
+                    playerID: deadPlayer,
+                    playerName: this.players[deadPlayer].name
+                }
+            }
+        }
+
         // count votes during the day
         countVotes() {
-            if (this.alive === this.elections.length) {
-                for (let key in votes) {
-                    if (this.elections.elected[this.elections.votes[key]] !== undefined) {
-                        this.elections.elected[this.elections.votes[key]]++;
-                    } else {
-                        this.elections.elected[this.elections.votes[key]] = 1;
-                    }
+            for (let key in votes) {
+                if (this.elections.elected[this.elections.votes[key]] !== undefined) {
+                    this.elections.elected[this.elections.votes[key]]++;
+                } else {
+                    this.elections.elected[this.elections.votes[key]] = 1;
                 }
-
-                let maxVotesId = -1;
-
-                for (let keyElected in this.elections.elected) {
-                    if (this.elections.elected[maxVotesId] === undefined || this.elections.elected[keyElected] > this.elections.elected[maxVotesId]) {
-                        maxVotesId = keyElected;
-                    }
-                }
-
-                // reset votes for next round
-                this.elections = {
-                    votes: {},
-                    elected: {},
-                    length: 0
-                };
-
-                if (maxVotesId !== -1) {
-                    this.kill(maxVotesId);
-                }
-
-                return maxVotesId; // return the killed person (-1 for no one was killed)
             }
 
-            return -2; // not all people have voted
+            let maxVotesId = -1;
+
+            for (let keyElected in this.elections.elected) {
+                if (this.elections.elected[maxVotesId] === undefined || this.elections.elected[keyElected] > this.elections.elected[maxVotesId]) {
+                    maxVotesId = keyElected;
+                }
+            }
+
+            // reset votes for next round
+            this.elections = {
+                votes: {},
+                elected: {},
+                length: 0
+            };
+
+            if (maxVotesId !== -1) {
+                let result = this.kill(maxVotesId);
+                if (result !== 0) {
+                    this.gameOver = result;
+                }
+            }
+
+            return maxVotesId; // return the killed person (-1 for no one was killed)
         }
 
         // kill someone during the day
@@ -140,7 +148,13 @@ module.exports = (function() {
                 this.numOfMafia--;
             }
 
-            return (this.numOfMafia >= this.alive - this.numOfMafia || this.numOfMafia === 0); // returns true if the game has finished
+            if (this.numOfMafia === 0) {
+                return 1; // peasants win
+            } else if (this.numOfMafia >= this.alive - this.numOfMafia) {
+                return -1; // mafia wins
+            } else {
+                return 0; // no one wins
+            }
         }
 
         

@@ -12,17 +12,6 @@ socket.on('allAsleep', function(msg) {
 
 });
 
-socket.on('sheriffTime', function(msg) {
-
-});
-
-socket.on('doctorTime', function(msg) {
-
-});
-
-socket.on('mafiaTime', function(msg) {
-
-});
 
 socket.on('wakeUp', function(msg) {
     if (msg === -1) {
@@ -30,7 +19,6 @@ socket.on('wakeUp', function(msg) {
     } else if (playerID === msg) {
         // sorry, man, you were killed
     }
-
 });
 
 socket.on('dayTime', function(msg) {
@@ -42,10 +30,6 @@ socket.on('voteTime', function(msg) {
 });
 
 socket.on('playerVoted', function(msg) {
-
-});
-
-socket.on('isMafia', function(msg) {
 
 });
 
@@ -71,42 +55,6 @@ function vote(id) {
         }
     };
     socket.emit('vote', votedPlayer);
-}
-
-function sheriffVote(id) {
-    const checkedPlayer = {
-        gameID: gameID,
-        playerID: playerID,
-        page: "game",
-        data: {
-            checkedPlayer: id
-        }
-    };
-    socket.emit('sheriffVote', checkedPlayer);
-}
-
-function doctorVote(id) {
-    const curedPlayer = {
-        gameID: gameID,
-        playerID: playerID,
-        page: "game",
-        data: {
-            curedPlayer: id
-        }
-    };
-    socket.emit('doctorVote', curedPlayer);
-}
-
-function mafiaVote(id) {
-    const playerToKill = {
-        gameID: gameID,
-        playerID: playerID,
-        page: "game",
-        data: {
-            playerToKill: id
-        }
-    };
-    socket.emit('mafiaVote', playerToKill);
 }
 
 function fallAsleep() {

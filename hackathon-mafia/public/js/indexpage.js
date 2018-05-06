@@ -12,7 +12,7 @@ $("#room-join-button").click(function() {
 });
 
 $("#start-game-button").click(function() {
-    window.location.href = new URL("/inprogress/" + "1001", base);
+    window.location.href = new URL("/inprogress/" + gameID + "/" + playerID, base);
 });
 
 $("#room-create-button").click(function() {
@@ -24,5 +24,19 @@ $("#room-create-button").click(function() {
 });
 
 $("#player-name-change").click(function() {
-    changeName($("#player-name-input").val());
+    let newName = $("#player-name-input").val();
+    changeName(newName);
+    $("#your-name-span").text(newName);
 });
+
+function addJoinedPlayersToLobby(players) {
+    console.log(players);
+    Object.keys(players).forEach(function(key, index) {
+        addPlayerToLobby(key, players[key]);
+    });
+}
+
+function addPlayerToLobby(pid, pname) {
+    $("#joined-players-list")
+            .append($('<li class="list-group-item" id="player' + pid + '">' + pname + '</li>'));
+}

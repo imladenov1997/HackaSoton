@@ -1,14 +1,10 @@
 <header class="py-2">
 </header>
 
-{{> game_params_js_context}}
-
-<script type="text/javascript" src="/js/socket-client/socket-client-lobby.js"></script>
-
 <section class="mt-5">
   <div class="container text-center">
     <p> The room code is <b>{{ game }}</b> </p>
-    <p> Your name is John Proctor {{ name }} </p>
+    <p> Your name is <span id="your-name-span">{{ name }}</span> </p>
     <div class="row justify-content-center">
       <div syleclass="col-auto align-self-center">
         <div class="input-group mb-3">
@@ -20,7 +16,7 @@
       </div>
     </div>
 
-    <ul class="list-group mt-2">
+    <ul id="joined-players-list" class="list-group mt-2">
       <li class="list-group-item">Terry Pratchet</li>
       <li class="list-group-item">John Travolta</li>
       <li class="list-group-item">Ryan Reynolds</li>
@@ -29,3 +25,8 @@
     </ul>
   </div>
 </section>
+
+{{> game_params_js_context}}
+
+<script type="text/javascript" src="/js/gamescreens.js"></script>
+<script type="text/javascript" src="/js/socket-client/socket-client-lobby.js"></script>

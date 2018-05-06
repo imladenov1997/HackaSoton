@@ -15,7 +15,7 @@ module.exports = (function() {
             this.admin = admin;
             this.code =  code;
             this.status = 0;
-            this.players = {};
+            this.players = {1: admin};
             this.numPlayers = 1;
         }
 
@@ -37,9 +37,10 @@ module.exports = (function() {
         //Returns an object with players associated with their ids
         getPlayersNames() {
             let allPlayers = {};
-            for(let i = 0; i < this.numPlayers - 1; i++) {
-                if(this.players.hasOwnProperty(i)) {
-                    allPlayers[i] = this.players[i].name;
+        
+            for (var key in this.players) {
+                if (this.players.hasOwnProperty(key)) {
+                    allPlayers[key] = this.players[key].name
                 }
             }
             return allPlayers;

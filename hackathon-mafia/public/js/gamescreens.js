@@ -3,4 +3,21 @@ $(".game-clock").FlipClock(3000, {
     clockFace: 'MinuteCounter',
 });
 
-$(".ascreen");
+function hideAllScreens() {
+    $(".ascreen").each(function() {
+        if (!$(this).hasClass('hidden')) {
+            $(this).addClass('hidden');
+        }
+    });
+}
+
+hideAllScreens();
+
+const activeScreen = 'main-screen';
+
+function navigateTo(screen) {
+    hideAllScreens();
+    $("#" + screen).removeClass('hidden');
+}
+
+navigateTo(activeScreen);

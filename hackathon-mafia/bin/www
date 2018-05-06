@@ -75,7 +75,7 @@ io.on('connection', (socket) => {
                 }
                 io.emit('allReady');
                 setTimeout(() => {
-                    io.emit("gameStarts")
+                    io.emit("fallAsleep");
                 }, 3000);
             }
         }
@@ -101,20 +101,21 @@ io.on('connection', (socket) => {
     socket.on('sheriffVote', (msg) => {
         if (msg.page === 'game') {
             const game = gameRooms[msg.gameID];
-            const player = game.players[msg.playerID];
             const checkedPlayer = game.players[msg.data.checkedPlayer];
-
 
             const message = {
                 gameID: msg.gameID,
                 playerID: msg.playerID,
                 data: {
-                    id: msg.data.checkedPlayer,
-                    isMafia: (player.role === 4)
+                    isMafia: (player.role.id === 0)
                 }
             };
 
-            socket.emit('isMafia', message);
+            socket.emit('isMafia', message); //Only in sheriff script
+            const msg = game.getNightOutcome();
+            setTimeout(() => {
+                io.emit("wakeUp", msg)
+            }, 5000);
         }
     });
 
@@ -122,35 +123,42 @@ io.on('connection', (socket) => {
         if (msg.page === 'game') {
             const game = gameRooms[msg.gameID];
             const player = game.players[msg.playerID];
-            const checkedPlayer = game.players[msg.data.checkedPlayer];
+            game.playerHealed = player.id;
 
-
-            const message = {
-                gameID: msg.gameID,
-                playerID: msg.playerID,
-                data: {
-                    id: msg.data.checkedPlayer,
-                    isMafia: (player.role === 4)
-                }
-            };
+            setTimeout(() => {
+                io.emit("sheriffVote")
+            }, 5000);
         }
     });
 
+    //When the werewolfs press the kill button
+    socket.on('mafiaKills', (msg) => {
+        setTimeout(() => {
+            io.emit("doctorVote");
+        }, 5000)
+    });
+
+    //When mafia selects a player to kill
     socket.on('mafiaVote', (msg) => {
         if (msg.page === 'game') {
-
+            const game = gameRooms[msg.gameID];
+            game.playerKilledByMafia = msg.data.playerToKill;
+            const msg = {
+                playerToKill: msg.data.playerToKill
+            }
+            io.emit("voteChange", msg); //Only in mafia script
         }
     });
 
-    socket.on('removeRoleScreen', (msg) => {
-        if (msg.page === 'game') {
-
-        }
-    });
-
+    //When the player clicks Ready on the role screen
     socket.on('playerAsleep', (msg) => {
         if (msg.page === 'game') {
-
+            const game = gameRooms[msg.gameID];
+            game.playersAsleep += 1;
+            
+            if(game.allPlayersAsleep()) {
+                io.emit("mafiaVote");
+            } 
         }
     });
 });

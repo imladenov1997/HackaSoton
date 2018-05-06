@@ -7,9 +7,10 @@ module.exports = (function() {
         2 : "ConfirmedPlayers"
     };
 
+
     const specialCharacters = [
-        "Doctor",
-        "Seer"
+        "doctor",
+        "seer"
     ]
 
     class GameRoom {
@@ -29,15 +30,22 @@ module.exports = (function() {
                 elected: {},
                 length: 0
             };
+            this.playersAsleep = 0;
+            this.playerKilledByMafia;
+            this.playerHealed;
         }
 
         playerJoined(player, playerID) {
             this.players[playerID] = player;
-            this.numPlayers++;
+        }
+
+        allPlayersAsleep() {
+            return this.playersAsleep === this.numPlayers;
         }
 
         //Each player gets the next possible ID
         getNextPlayerID() {
+            this.numPlayers += 1;
             return this.numPlayers;
         }
 
@@ -57,9 +65,32 @@ module.exports = (function() {
             return allPlayers;
         }
 
+        getPlayersList() {
+            const playersList = [];
+            let i = 0;
+            for (let player in this.players) {
+                if (players.hasOwnProperty(player)) {
+                    playersList[i] = {
+                        playerID: this.players[player].id,
+                        playerName: this.players[player].name
+                    };
+                    i += 1;
+                }
+
+            }
+            return playersList;
+        }
+
         addVote(voter, voted) {
             this.elections.votes[voter] = voted;
             this.elections.length++;
+        }
+
+        getNightOutcome() {
+            if(this.playerHealed === this.playerKilledByMafia) {
+                this.playerKilledByMafia = 0;
+            }
+            return {playerKilled: this.playerKilledByMafia};
         }
 
         countVotes() {
@@ -102,6 +133,8 @@ module.exports = (function() {
             this.alive--;
         }
 
+
+
         initialize() {
             //Assigning of roles
             let playersIDs = Object.keys(this.players);
@@ -111,9 +144,9 @@ module.exports = (function() {
                 if(i < specialCharacters.length) {
                     this.players[element].assignRole(specialCharacters[i]);
                 } else if(i%3 == 0) {
-                    this.players[element].assignRole("Werewolf");
+                    this.players[element].assignRole("werewolf");
                 } else {
-                    this.players[element].assignRole("Peasant");
+                    this.players[element].assignRole("peasant");
                 }
                 i += 1;
             });

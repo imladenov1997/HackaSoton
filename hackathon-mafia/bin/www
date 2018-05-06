@@ -53,14 +53,17 @@ io.on('connection', (socket) => {
     });
 
     socket.on('playerReady', (msg) => {
-        if (msg.page === 'lobby') {
+        if (msg.page === 'game') {
             let allReady = true; // assume everyone is ready
             const game = gameRooms[msg.gameID];
             const player = game.players[msg.playerID];
             player.setStatus(msg.data.ready);
+            console.log(game);
 
-            for (const player in game.players) {
-                if (player.status === 'NOT_READY') {
+            // Check if everyone is ready
+            for (let player in game.players) {
+                console.log(player);
+                if (game.players[player].status === 'NOT_READY') {
                     allReady = false; // not everyone is ready
                 }
             }

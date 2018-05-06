@@ -105,7 +105,7 @@ io.on('connection', (socket) => {
                 playerID: msg.playerID,
                 data: {
                     id: msg.data.checkedPlayer,
-                    isMafia: (player.role === 4)
+                    isMafia: (player.role === 'Werewolf')
                 }
             };
 
@@ -117,23 +117,28 @@ io.on('connection', (socket) => {
         if (msg.page === 'game') {
             const game = gameRooms[msg.gameID];
             const player = game.players[msg.playerID];
-            const checkedPlayer = game.players[msg.data.checkedPlayer];
+            const curedPlayer = game.players[msg.data.curedPlayer];
 
 
             const message = {
                 gameID: msg.gameID,
                 playerID: msg.playerID,
                 data: {
-                    id: msg.data.checkedPlayer,
-                    isMafia: (player.role === 4)
+
                 }
             };
+
+            // here when mafia votes, should check if the voted id is the same as the cured id
         }
     });
 
     socket.on('mafiaVote', (msg) => {
         if (msg.page === 'game') {
-
+            const game = gameRooms[msg.gameID];
+            const player = game.players[msg.playerID];
+            if (player.status === "ALIVE") {
+                game.addMafiaVote(msg.playerID, msg.data.votedPlayerId);
+            }
         }
     });
 

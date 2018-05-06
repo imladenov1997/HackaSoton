@@ -25,6 +25,11 @@ socket.on('mafiaTime', function(msg) {
 });
 
 socket.on('wakeUp', function(msg) {
+    if (msg === -1) {
+        // no one was killed
+    } else if (playerID === msg) {
+        // sorry, man, you were killed
+    }
 
 });
 

@@ -1,4 +1,4 @@
-$(".game-clock").FlipClock(3000, {
+$(".game-clock").FlipClock(20, {
     countdown: true,
     clockFace: 'MinuteCounter',
 });
@@ -16,6 +16,7 @@ hideAllScreens();
 const activeScreen = 'ready-screen';
 
 function navigateTo(screen) {
+    resetSleepScreen();
     hideAllScreens();
     $("#" + screen).removeClass('hidden');
 }
@@ -32,17 +33,27 @@ $("#ready-button").click(function() {
 
 
 $("#sleep-touch-area").click(function() {
-    $("#open-eye-svg").addClass("hidden");
-    $("#closed-eye-svg").removeClass("hidden");
-    $("#sleep-info").text("You should be asleep.");
-    fallAsleep();
+    if(!$("#sleep-screen").hasClass("hidden")) {
+        $("#open-eye-svg").addClass("hidden");
+        $("#closed-eye-svg").removeClass("hidden");
+        $("#sleep-info").text("You should be asleep.");
+        fallAsleep();
+    }
 });
+
+function resetSleepScreen() {
+    $("#open-eye-svg").removeClass("hidden");
+    $("#closed-eye-svg").addClass("hidden");
+    $("#sleep-info").text("Touch screen when you are asleep.");
+}
+
+
 
 function setActive(selectedOption) {
     deselectAll();
     selectedOption.classList.add('active');
     selectedOption.style.backgroundColor="grey";
-    selectedOption.style.borderColor("black");
+    // selectedOption.style.borderColor("black");
 }
 
 $("villagePeople").each(() => {
@@ -61,4 +72,16 @@ function deselectAll() {
         els[i].classList.remove("active");
         els[i].style.borderColor("white");
     }
+}
+
+$(".vote-control").each(function () {
+    let id = $(this).attr('id');
+    $(this).click(() => {
+        vote(id);
+    });
+});
+
+function changeStatusMessage(message) {
+    console.log('changed message to ' + message);
+    $('#status-message-h').text(message);
 }

@@ -1,4 +1,7 @@
 <script type="text/javascript">
-    let playerRole = "{{ role }}";
-    console.log(playerRole);
+    let playerRole = "{{ role.scriptName }}";
 </script>
+
+{{#if role.notPeasant}}
+<script type="text/javascript" src="/js/socket-client/{{role.scriptName}}-connection.js"></script>
+{{/if}}

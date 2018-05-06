@@ -2,7 +2,6 @@ const socket = io();
 
 socket.on('allReady', function(msg) {
     navigateTo("sleep-screen");
-    console.log('falling asleep');
 });
 
 socket.on('removeRoleScreen', function(msg) {
@@ -13,12 +12,16 @@ socket.on('allAsleep', function(msg) {
 
 });
 
+socket.on('killed', function(data) {
+    changeStatusMessage(data.playerName + " was lynched by the town.");
+});
 
 socket.on('wakeUp', function(msg) {
-    if (msg === -1) {
-        // no one was killed
-    } else if (playerID === msg) {
+    if (playerID === msg) {
         // sorry, man, you were killed
+    } else {
+        navigateTo("main-screen");
+        changeStatusMessage(msg.playerName + " was killed tonight.");
     }
 });
 
@@ -68,6 +71,7 @@ function vote(id) {
             votedPlayerId: id
         }
     };
+    console.log(votedPlayer);
     socket.emit('vote', votedPlayer);
 }
 

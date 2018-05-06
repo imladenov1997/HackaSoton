@@ -27,12 +27,12 @@ socket.on('mafiaTime', (msg) => {
 });
 
 socket.on('killed', (msg) => {
-    let sound = new Audio('/music/morningNobodyWasKilled.m4a');
+    let sound = new Audio('/music/morningSomeoneWasKilled.m4a');
     sound.play();
 });
 
 socket.on('noOneKilled', (msg) => {
-    let sound = new Audio('/music/morningSomeoneWasKilled.m4a');
+    let sound = new Audio('/music/morningNobodyWasKilled.m4a');
     sound.play();
 });
 

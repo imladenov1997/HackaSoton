@@ -48,7 +48,7 @@ module.exports = (function() {
          */
         constructor(playerID, socket) {
             this.id = playerID;
-            this.status = undefined;
+            this.status = 'NOT_READY';
             this.socket = socket;
             let firstNameRnd = Math.floor(Math.random() * (firstNames.length - 1));
             let lastNameRnd = Math.floor(Math.random() * (lastNames.length - 1));
@@ -62,6 +62,9 @@ module.exports = (function() {
 
         assignRole(role) {
             this.role = role;
+        }
+        setStatus(status) {
+            this.status = status;
         }
     }
 

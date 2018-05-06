@@ -29,6 +29,7 @@ $("#player-name-change").click(function() {
     $("#your-name-span").text(newName);
 });
 
+
 function addJoinedPlayersToLobby(players) {
     console.log(players);
     Object.keys(players).forEach(function(key, index) {

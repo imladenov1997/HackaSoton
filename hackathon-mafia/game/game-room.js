@@ -33,6 +33,7 @@ module.exports = (function() {
             this.playersAsleep = 0;
             this.playerKilledByMafia;
             this.playerHealed;
+            this.numOfMafia = 0;
         }
 
         playerJoined(player, playerID) {
@@ -81,9 +82,10 @@ module.exports = (function() {
             return playersList;
         }
 
+        // vote during the day
         addVote(voter, voted) {
+            this.elections.length = this.elections.votes[voter] === undefined ? this.elections.length + 1 : this.elections.length;
             this.elections.votes[voter] = voted;
-            this.elections.length++;
         }
 
         getNightOutcome() {
@@ -93,6 +95,7 @@ module.exports = (function() {
             return {playerKilled: this.playerKilledByMafia};
         }
 
+        // count votes during the day
         countVotes() {
             if (this.alive === this.elections.length) {
                 for (let key in votes) {
@@ -119,7 +122,7 @@ module.exports = (function() {
                 };
 
                 if (maxVotesId !== -1) {
-                    kill(maxVotesId);
+                    this.kill(maxVotesId);
                 }
 
                 return maxVotesId; // return the killed person (-1 for no one was killed)
@@ -128,12 +131,19 @@ module.exports = (function() {
             return -2; // not all people have voted
         }
 
+        // kill someone during the day
         kill(id) {
             this.players[id].setStatus('DEAD');
             this.alive--;
+
+            if (this.players[id].role === 'Werewolf' || this.players[id].role === 'Alpha Wolf') {
+                this.numOfMafia--;
+            }
+
+            return (this.numOfMafia >= this.alive - this.numOfMafia || this.numOfMafia === 0); // returns true if the game has finished
         }
 
-
+        
 
         initialize() {
             //Assigning of roles
@@ -145,12 +155,13 @@ module.exports = (function() {
                     this.players[element].assignRole(specialCharacters[i]);
                 } else if(i%3 == 0) {
                     this.players[element].assignRole("werewolf");
+                    this.numOfMafia += 1;
                 } else {
                     this.players[element].assignRole("peasant");
                 }
                 i += 1;
             });
-            this.alive = playerIDs.length;
+            this.alive = this.numPlayers - 1;
         }
 
     }

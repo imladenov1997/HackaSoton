@@ -127,9 +127,9 @@ io.on('connection', (socket) => {
                             console.log('fall_asleep');
                             setTimeout(function() {
                                 io.emit("fallAsleep");
-                            }, 5000);
+                            }, 6000);
                         }
-                    }, 20000)
+                    }, 30000)
                     io.emit("wakeUp", outcomeN);
                     const gameStatus = game.getGameStatus();
                     if(gameStatus.finished) {

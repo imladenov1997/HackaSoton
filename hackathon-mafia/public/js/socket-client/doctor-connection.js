@@ -11,6 +11,7 @@ socket.on('doctorTime', function(msg) {
 
 socket.on('sheriffTime', function(msg) {
     navigateTo('sleep-screen');
+    closeEyes();
 });
 
 function doctorVote(id) {

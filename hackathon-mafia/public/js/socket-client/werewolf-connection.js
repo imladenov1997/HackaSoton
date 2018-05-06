@@ -11,6 +11,7 @@ socket.on('mafiaTime', function(msg) {
 
 socket.on('doctorTime', function(msg) {
     navigateTo("sleep-screen");
+    closeEyes();
 });
 
 function mafiaVote(id) {

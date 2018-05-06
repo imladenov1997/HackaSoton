@@ -102,6 +102,8 @@ module.exports = (function() {
             this.alive--;
         }
 
+
+
         initialize() {
             //Assigning of roles
             let playersIDs = Object.keys(this.players);

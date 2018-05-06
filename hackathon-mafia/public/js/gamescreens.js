@@ -29,3 +29,10 @@ $("#ready-button").click(function() {
         .removeClass("btn-outline-secondary")
         .addClass("btn-success");
 });
+
+$("#sleep-touch-area").click(function() {
+    $("#open-eye-svg").addClass("hidden");
+    $("#closed-eye-svg").removeClass("hidden");
+    $("#sleep-info").text("You should be asleep.");
+    fallAsleep();
+});

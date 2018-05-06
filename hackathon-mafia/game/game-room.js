@@ -117,7 +117,7 @@ module.exports = (function() {
                 }
                 i += 1;
             });
-            this.alive = playerIDs.length;
+            this.alive = this.numPlayers - 1;
         }
 
     }

@@ -11,12 +11,40 @@ function hideAllScreens() {
     });
 }
 
+function hideClock() {
+    $(".game-clock").addClass("hidden");
+}
+
+function showClock() {
+    $(".game-clock").removeClass("hidden");
+}
+
+function setFlipClockTime(time){
+    $(".game-clock").FlipClock(30, {
+        countdown: true,
+        clockFace: 'MinuteCounter',
+    });
+}
+
+function showVotedDisplays() {
+    $(".voted-display").each(function () {
+        $(this).removeClass("hidden");
+    });
+}
+
+function hideVotedDisplays() {
+    $(".voted-display").each(function () {
+        $(this).addClass("hidden");
+    });
+}
+
 hideAllScreens();
 
 const activeScreen = 'ready-screen';
 
 function navigateTo(screen) {
     resetSleepScreen();
+    deselectAll();
     hideAllScreens();
     $("#" + screen).removeClass('hidden');
 }
@@ -34,9 +62,7 @@ $("#ready-button").click(function() {
 
 $("#sleep-touch-area").click(function() {
     if(!$("#sleep-screen").hasClass("hidden")) {
-        $("#open-eye-svg").addClass("hidden");
-        $("#closed-eye-svg").removeClass("hidden");
-        $("#sleep-info").text("You should be asleep.");
+        closeEyes();
         fallAsleep();
     }
 });
@@ -47,7 +73,11 @@ function resetSleepScreen() {
     $("#sleep-info").text("Touch screen when you are asleep.");
 }
 
-
+function closeEyes() {
+    $("#open-eye-svg").addClass("hidden");
+    $("#closed-eye-svg").removeClass("hidden");
+    $("#sleep-info").text("You should be asleep.");
+}
 
 function setActive(selectedOption) {
     deselectAll();
@@ -70,7 +100,7 @@ function deselectAll() {
     for (var i = 0; i < els.length; i++) {
         els[i].style.backgroundColor="white";
         els[i].classList.remove("active");
-        els[i].style.borderColor("white");
+        // els[i].style.borderColor("white");
     }
 }
 

@@ -4,7 +4,7 @@
     <div id="players-display">
       <div class="list-group mt-2">
         {{#each playersData}}            
-          <a id="{{ playerID }}" href="#" onclick="setActive(this)" style="color:black" class="list-group-item villagePeople vote-control">{{ playerName }}<i><span id="{{ playerID }}-voted-message" class="px-2">(hasn't voted)</span></i></a>
+          <a id="{{ playerID }}" href="#" onclick="setActive(this)" style="color:black" class="list-group-item villagePeople vote-control">{{ playerName }}<i><span id="{{ playerID }}-voted-message" class="px-2 voted-display">(hasn't voted)</span></i></a>
         {{/each}}
       </div>
     </div>

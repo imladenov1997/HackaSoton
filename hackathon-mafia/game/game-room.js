@@ -179,8 +179,7 @@ module.exports = (function() {
                 }
                 i += 1;
             });
-            this.alive = playersIDs.length;
-
+            this.alive = this.numPlayers - 1;
         }
 
     }

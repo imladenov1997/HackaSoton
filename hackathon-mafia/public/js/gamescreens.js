@@ -30,17 +30,20 @@ $("#ready-button").click(function() {
         .addClass("btn-success");
 });
 
-//Naka
+
+$("#sleep-touch-area").click(function() {
+    $("#open-eye-svg").addClass("hidden");
+    $("#closed-eye-svg").removeClass("hidden");
+    $("#sleep-info").text("You should be asleep.");
+    fallAsleep();
+});
+
 function setActive(selectedOption) {
     deselectAll();
     selectedOption.classList.add('active');
     selectedOption.style.backgroundColor="grey";
 }
 
-console.log("test");
-
-
-//To fix
 $("villagePeople").each(() => {
     $(this).click(() => {
         setActive($(this));

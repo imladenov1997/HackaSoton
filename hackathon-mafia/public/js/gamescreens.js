@@ -38,6 +38,14 @@ $("#sleep-touch-area").click(function() {
     fallAsleep();
 });
 
+function resetSleepScreen() {
+    $("#open-eye-svg").removeClass("hidden");
+    $("#closed-eye-svg").addClass("hidden");
+    $("#sleep-info").text("Touch screen when you are asleep.");
+}
+
+
+
 function setActive(selectedOption) {
     deselectAll();
     selectedOption.classList.add('active');

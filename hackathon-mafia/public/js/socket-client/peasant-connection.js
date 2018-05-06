@@ -1,7 +1,7 @@
 const socket = io();
 
 socket.on('allReady', function(msg) {
-    navigateTo("sleep-screen");
+    navigateTo("main-screen");
 });
 
 socket.on('removeRoleScreen', function(msg) {

@@ -21,3 +21,10 @@ function navigateTo(screen) {
 }
 
 navigateTo(activeScreen);
+
+$("#ready-button").click(function() {
+    setReady();
+    $("#ready-button")
+        .removeClass("btn-outline-secondary")
+        .addClass("btn-success-secondary");
+});

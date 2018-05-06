@@ -48,6 +48,24 @@ module.exports = (function() {
             return this.code;
         }
 
+        getGameStatus() {
+            let gameStatus = {};
+            if(this.gameOver === 0) {
+                gameStatus.finished = false;
+            } else {
+                gameStatus.finished = true;
+
+                if(this.gameOver === 1) {
+                    gameStatus.winner = "Villagers";
+                } else if(this.gameOver === -1) {
+                    gameStatus.winner = "Werewolves";
+                }
+            }
+            return gameStatus;
+        }
+
+        
+
         //Returns an object with players associated with their ids
         getPlayersNames() {
             let allPlayers = {};
